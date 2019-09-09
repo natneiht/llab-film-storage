@@ -64,7 +64,7 @@ class FilmItem extends PureComponent {
 				<td>
 					<button
 						type="button"
-						class={`status-button btn ${!filmStatus ? 'btn-outline-danger' : 'btn-outline-success'}`}
+						className={`status-button btn ${!filmStatus ? 'btn-outline-danger' : 'btn-outline-success'}`}
 						onClick={this.toggleFilmStatus}
 					>
 						{filmDetail.status}
@@ -107,7 +107,7 @@ class FilmItem extends PureComponent {
 				<td>
 					<button
 						type="button"
-						class={`status-button btn ${!filmStatus ? 'btn-outline-danger' : 'btn-outline-success'}`}
+						className={`status-button btn ${!filmStatus ? 'btn-outline-danger' : 'btn-outline-success'}`}
 						onClick={this.toggleFilmStatus}
 					>
 						{filmDetail.status}

@@ -23,9 +23,10 @@ class HomePage extends PureComponent {
 		//     'Content-Type': 'application/json',}
 		// }
 		// const response = await Axios.get( 'http://us-central1-llab-development.cloudfunctions.net/fetch_film_store', config);
+		// const responseData = response.data;
 		const responseData = staticData.data;
 		this.setState({ filmList: responseData });
-		console.log(staticData);
+		// console.log(staticData);
 	}
 
 	submitFilmDetail = newDetail => {
