@@ -66,11 +66,16 @@ class HomePage extends PureComponent {
 						{/* Add new item */}
 						{this.state.addMode && <NewItem submitFilmDetail={this.submitFilmDetail} />}
 						<tr>
-                            <td colSpan="5" />
+                            <td colSpan="4" />
 							<td>
 								<button type="button" className="status-button btn btn-outline-success"
                                 onClick={this.addNewItem}>
 									Add new
+								</button>
+							</td>
+							<td>
+								<button type="button" className="status-button btn btn-outline-success">
+									Update
 								</button>
 							</td>
 						</tr>
