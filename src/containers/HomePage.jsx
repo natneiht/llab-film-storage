@@ -18,11 +18,11 @@ class HomePage extends PureComponent {
 	}
 
 	async componentDidMount() {
-		const config = {
-		    headers: {'Access-Control-Allow-Origin': '*',
-		    'Content-Type': 'application/json',}
-		}
-		const response = await Axios.get( 'http://us-central1-llab-development.cloudfunctions.net/fetch_film_store', config);
+		// const config = {
+		//     headers: {'Access-Control-Allow-Origin': '*',
+		//     'Content-Type': 'application/json',}
+		// }
+		// const response = await Axios.get( 'http://us-central1-llab-development.cloudfunctions.net/fetch_film_store', config);
 		const responseData = staticData.data;
 		this.setState({ filmList: responseData });
 		console.log(staticData);
