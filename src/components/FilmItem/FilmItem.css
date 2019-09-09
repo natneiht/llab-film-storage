@@ -1,0 +1,43 @@
+/* .film-item {
+
+} */
+td {
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+td img {
+    height: 80px;
+    width: 80px;
+}
+
+.edit-price {
+    text-align:center;
+    /* padding:5px; */
+    width: 80% ;
+}
+
+.edit-date {
+    text-align:center;
+    /* padding:5px; */
+    width: 80% ;
+}
+.edit-url {
+    text-align:center;
+    /* padding:5px; */
+    width: 80% ;
+}
+
+.edit-button {
+    width: 40px;
+    height: 40px;
+}
+
+.edit-button img{
+    width: 90%;
+    height: 90%;
+}
+
+
+.status-button {
+    text-transform: capitalize;
+}
