@@ -4,6 +4,7 @@ import './FilmItem.css';
 import editIcon from '../../icons/edit.svg';
 import doneIcon from '../../icons/done.svg';
 import cancelIcon from '../../icons/cancel.svg';
+import deleteIcon from '../../icons/delete.svg';
 
 class FilmItem extends PureComponent {
 	constructor(props) {
@@ -31,24 +32,24 @@ class FilmItem extends PureComponent {
 	updateFilmDetail = () => {
 		const { newFilmDetail } = this.state;
 		this.setState({ editMode: false });
-		this.props.submitFilmDetail(newFilmDetail);
+		this.props.addNewFilm(newFilmDetail);
 	};
 
 	toggleFilmStatus = () => {
 		const filmStatus = this.props.filmDetail.status;
-		alert(filmStatus === 'in' ? 'Đã thông báo hết hàng!' : 'Đã thông báo còn hàng!')
+		alert(filmStatus === 'in' ? 'Đã thông báo hết hàng!' : 'Đã thông báo còn hàng!');
 		const newFilmDetail = {
 			...this.state.newFilmDetail,
 			status: filmStatus === 'in' ? 'out' : 'in'
-        };
-		this.props.submitFilmDetail(newFilmDetail);
+		};
+		this.props.addNewFilm(newFilmDetail);
 	};
 	render() {
-		const { filmDetail } = this.props;
+		const { filmDetail, deleteFilm } = this.props;
 		const { editMode } = this.state;
 		const filmStatus = filmDetail.status === 'in' ? true : false;
 		const statusClass = filmStatus ? '' : 'table-secondary';
-        // console.log(this.props.filmDetail.status);
+		// console.log(this.props.filmDetail.status);
 		const showView = (
 			<tr className={statusClass}>
 				<td scope="row">
@@ -69,12 +70,25 @@ class FilmItem extends PureComponent {
 						className={`status-button btn ${!filmStatus ? 'btn-outline-danger' : 'btn-outline-success'}`}
 						onClick={this.toggleFilmStatus}
 					>
-						{filmDetail.status==='in'?'In stock':'Out stock'}
+						{filmDetail.status === 'in' ? 'In stock' : 'Out stock'}
 					</button>
 				</td>
 				<td>
-					<button type="button" className="btn btn-light edit-button" onClick={this.switchToEditMode}>
+					<button
+						type="button"
+						title="Edit film detail"
+						className="btn btn-light edit-button"
+						onClick={this.switchToEditMode}
+					>
 						<img src={editIcon} />
+					</button>
+					<button
+						type="button"
+						title="Delete from store"
+						className="btn btn-light edit-button"
+						onClick={() => deleteFilm(filmDetail)}
+					>
+						<img src={deleteIcon} />
 					</button>
 				</td>
 			</tr>
@@ -112,14 +126,26 @@ class FilmItem extends PureComponent {
 						className={`status-button btn ${!filmStatus ? 'btn-outline-danger' : 'btn-outline-success'}`}
 						onClick={this.toggleFilmStatus}
 					>
-						{filmDetail.status==='in'?'In stock':'Out stock'}
+						{filmDetail.status === 'in' ? 'In stock' : 'Out stock'}
 					</button>
 				</td>
 				<td>
-					<button type="button" className="btn btn-light edit-button" onClick={this.updateFilmDetail}>
+					<button
+						type="button"
+						title="Done editting"
+						className="btn btn-light edit-button"
+						onClick={this.updateFilmDetail}
+					>
 						<img src={doneIcon} />
 					</button>
-					<button type="button" className="btn btn-light edit-button" onClick={this.props.cancelAddMode}>
+					<button
+						type="button"
+						title="Cancel editting"
+						className="btn btn-light edit-button"
+						onClick={() => {
+							this.setState({ editMode: false });
+						}}
+					>
 						<img src={cancelIcon} />
 					</button>
 				</td>

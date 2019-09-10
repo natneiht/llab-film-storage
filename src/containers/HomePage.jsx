@@ -18,18 +18,9 @@ class HomePage extends PureComponent {
 	}
 
 	async componentDidMount() {
-		// const config = {
-		//     headers: {'Access-Control-Allow-Origin': '*',
-		// 	'Content-type': 'application/json; charset=utf-8',
-		// 	'Access-Control-Allow-Credentials' : 'true'}
-		// }
 		const response = await Axios.get( 'https://us-central1-llab-development.cloudfunctions.net/fetch_film_store');
-		// const requestURL = 'https://us-central1-llab-development.cloudfunctions.net/fetch_film_store'
-		console.log(response);
-		// const responseData = response.data;
 		const responseData = response.data.data;
 		this.setState({ filmList: responseData });
-		// console.log(staticData);
 	}
 
 	generateFilmId = () => {
@@ -40,7 +31,7 @@ class HomePage extends PureComponent {
 		return Number(idArray[idArray.length-1]) + 1;
 	}
 
-	submitFilmDetail = newDetail => {
+	addNewFilm = newDetail => {
 		const newFilmList = [...this.state.filmList];
 		const foundItem = newFilmList.findIndex(item => item.id == newDetail.id);
 		if (foundItem >= 0) {
@@ -52,6 +43,18 @@ class HomePage extends PureComponent {
 		this.setState({ filmList: newFilmList, addMode: false });
 	};
 
+	deleteFilm = itemDetail => {
+		
+		const newFilmList = [...this.state.filmList];
+		const foundItem = newFilmList.findIndex(item => item.id == itemDetail.id);
+		console.log(foundItem);
+		if (foundItem >= 0) {
+			newFilmList.splice(foundItem,1);
+		}
+		this.setState({ filmList: newFilmList, addMode: false });
+
+	}
+
     addNewItem = () => {
         this.setState({addMode: true})
 	}
@@ -60,15 +63,6 @@ class HomePage extends PureComponent {
 		console.log(this.state.filmList);
 		const response = Axios.post( 'https://us-central1-llab-development.cloudfunctions.net/fetch_film_store', {data: this.state.filmList});
 		response.then(data =>console.log(data)).catch(err=> console.log(err));
-		// Send a POST request
-		// axios({
-		// 	method: 'put',
-		// 	url: '/user/12345',
-		// 	data: {
-		// 	firstName: 'Fred',
-		// 	lastName: 'Flintstone'
-		// 	}
-		// });
 	}
 
 	cancelAddMode = () => {
@@ -76,7 +70,7 @@ class HomePage extends PureComponent {
 	}
 
 	render() {
-		const { filmList,addMode } = this.state;
+		const { filmList, addMode } = this.state;
 		return (
 			<div className="main">
 				<table className="table table-hover">
@@ -92,11 +86,13 @@ class HomePage extends PureComponent {
 					</thead>
 					<tbody>
 						{filmList.map((filmDetail, index) => (
-							<FilmItem key={index} filmDetail={filmDetail} submitFilmDetail={this.submitFilmDetail} />
+							<FilmItem key={index} filmDetail={filmDetail}
+								addNewFilm={this.addNewFilm}
+								deleteFilm={this.deleteFilm}/>
 						))}
 
 						{/* Add new item */}
-						{addMode && <NewItem submitFilmDetail={this.submitFilmDetail} cancelAddMode={this.cancelAddMode}/>}
+						{addMode && <NewItem addNewFilm={this.addNewFilm} cancelAddMode={this.cancelAddMode}/>}
 						<tr>
                             <td colSpan="4" />
 							<td>
@@ -116,9 +112,8 @@ class HomePage extends PureComponent {
 				</table>
 			</div>
 		);
-	}
+	};
 }
-
 HomePage.propTypes = {};
 
 export default HomePage;

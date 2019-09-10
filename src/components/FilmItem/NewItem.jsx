@@ -14,7 +14,7 @@ class NewItem extends PureComponent {
 			alert('Nhập đầy đủ thông tin!')
 			return;
 		}
-        this.props.submitFilmDetail({
+        this.props.addNewFilm({
             name: newName.value,
             image_url: newUrl.value,
             date: newDate.value,
