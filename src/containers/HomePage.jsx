@@ -20,32 +20,63 @@ class HomePage extends PureComponent {
 	async componentDidMount() {
 		// const config = {
 		//     headers: {'Access-Control-Allow-Origin': '*',
-		//     'Content-Type': 'application/json',}
+		// 	'Content-type': 'application/json; charset=utf-8',
+		// 	'Access-Control-Allow-Credentials' : 'true'}
 		// }
-		// const response = await Axios.get( 'http://us-central1-llab-development.cloudfunctions.net/fetch_film_store', config);
+		const response = await Axios.get( 'https://us-central1-llab-development.cloudfunctions.net/fetch_film_store');
+		// const requestURL = 'https://us-central1-llab-development.cloudfunctions.net/fetch_film_store'
+		console.log(response);
 		// const responseData = response.data;
-		const responseData = staticData.data;
+		const responseData = response.data.data;
 		this.setState({ filmList: responseData });
 		// console.log(staticData);
 	}
 
+	generateFilmId = () => {
+		const { filmList } = this.state;
+		const idArray = [];
+		filmList.forEach(item=> idArray.push(Number(item.id)));
+		idArray.sort(function(a, b){return a - b});
+		return Number(idArray[idArray.length-1]) + 1;
+	}
+
 	submitFilmDetail = newDetail => {
 		const newFilmList = [...this.state.filmList];
-		const foundItem = newFilmList.findIndex(item => item.name == newDetail.name);
+		const foundItem = newFilmList.findIndex(item => item.id == newDetail.id);
 		if (foundItem >= 0) {
 			newFilmList[foundItem] = newDetail;
 		} else {
-			newFilmList.push(newDetail);
+			const newId = this.generateFilmId();
+			newFilmList.push({...newDetail, id: newId});
 		}
 		this.setState({ filmList: newFilmList, addMode: false });
 	};
 
     addNewItem = () => {
         this.setState({addMode: true})
-    }
+	}
+	
+	putDetailToServer = () => {
+		console.log(this.state.filmList);
+		const response = Axios.post( 'https://us-central1-llab-development.cloudfunctions.net/fetch_film_store', {data: this.state.filmList});
+		response.then(data =>console.log(data)).catch(err=> console.log(err));
+		// Send a POST request
+		// axios({
+		// 	method: 'put',
+		// 	url: '/user/12345',
+		// 	data: {
+		// 	firstName: 'Fred',
+		// 	lastName: 'Flintstone'
+		// 	}
+		// });
+	}
+
+	cancelAddMode = () => {
+		this.setState({addMode: false})
+	}
 
 	render() {
-		const { filmList } = this.state;
+		const { filmList,addMode } = this.state;
 		return (
 			<div className="main">
 				<table className="table table-hover">
@@ -65,17 +96,18 @@ class HomePage extends PureComponent {
 						))}
 
 						{/* Add new item */}
-						{this.state.addMode && <NewItem submitFilmDetail={this.submitFilmDetail} />}
+						{addMode && <NewItem submitFilmDetail={this.submitFilmDetail} cancelAddMode={this.cancelAddMode}/>}
 						<tr>
                             <td colSpan="4" />
 							<td>
-								<button type="button" className="status-button btn btn-outline-success"
+								{!addMode && (<button type="button" className="status-button btn btn-outline-success"
                                 onClick={this.addNewItem}>
 									Add new
-								</button>
+								</button>)}
 							</td>
 							<td>
-								<button type="button" className="status-button btn btn-outline-success">
+								<button type="button" className="status-button btn btn-outline-success"
+								onClick={this.putDetailToServer}>
 									Update
 								</button>
 							</td>

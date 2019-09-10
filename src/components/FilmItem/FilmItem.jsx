@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './FilmItem.css';
 import editIcon from '../../icons/edit.svg';
 import doneIcon from '../../icons/done.svg';
+import cancelIcon from '../../icons/cancel.svg';
 
 class FilmItem extends PureComponent {
 	constructor(props) {
@@ -35,16 +36,17 @@ class FilmItem extends PureComponent {
 
 	toggleFilmStatus = () => {
 		const filmStatus = this.props.filmDetail.status;
+		alert(filmStatus === 'in' ? 'Đã thông báo hết hàng!' : 'Đã thông báo còn hàng!')
 		const newFilmDetail = {
 			...this.state.newFilmDetail,
-			status: filmStatus === 'in stock' ? 'out stock' : 'in stock'
+			status: filmStatus === 'in' ? 'out' : 'in'
         };
 		this.props.submitFilmDetail(newFilmDetail);
 	};
 	render() {
 		const { filmDetail } = this.props;
 		const { editMode } = this.state;
-		const filmStatus = filmDetail.status === 'in stock' ? true : false;
+		const filmStatus = filmDetail.status === 'in' ? true : false;
 		const statusClass = filmStatus ? '' : 'table-secondary';
         // console.log(this.props.filmDetail.status);
 		const showView = (
@@ -67,7 +69,7 @@ class FilmItem extends PureComponent {
 						className={`status-button btn ${!filmStatus ? 'btn-outline-danger' : 'btn-outline-success'}`}
 						onClick={this.toggleFilmStatus}
 					>
-						{filmDetail.status}
+						{filmDetail.status==='in'?'In stock':'Out stock'}
 					</button>
 				</td>
 				<td>
@@ -110,12 +112,15 @@ class FilmItem extends PureComponent {
 						className={`status-button btn ${!filmStatus ? 'btn-outline-danger' : 'btn-outline-success'}`}
 						onClick={this.toggleFilmStatus}
 					>
-						{filmDetail.status}
+						{filmDetail.status==='in'?'In stock':'Out stock'}
 					</button>
 				</td>
 				<td>
 					<button type="button" className="btn btn-light edit-button" onClick={this.updateFilmDetail}>
 						<img src={doneIcon} />
+					</button>
+					<button type="button" className="btn btn-light edit-button" onClick={this.props.cancelAddMode}>
+						<img src={cancelIcon} />
 					</button>
 				</td>
 			</tr>
