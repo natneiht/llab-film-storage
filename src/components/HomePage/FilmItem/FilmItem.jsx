@@ -6,11 +6,11 @@ import './FilmItem.css';
 class FilmItem extends PureComponent {
 
 	render() {
-		const { filmData, deleteFilm } = this.props;
+		const { filmData } = this.props;
 		const filmDetail = filmData.data;
 		const filmStatus = filmDetail.filmStatus === 'in' ? true : false;
 		const statusClass = filmStatus ? '' : 'table-secondary';
-		// console.log(this.props.filmDetail.status);
+		console.log(this.props);
 		return (
 			<tr className={statusClass}>
 				<td scope="row">
@@ -35,6 +35,7 @@ class FilmItem extends PureComponent {
 
 				</td>
 			</tr>
+
 		);
 
 	}

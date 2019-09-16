@@ -1,0 +1,11 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.footer-container {
+
+        overflow: hidden;
+        background-color: #ffffff;
+        width: 100%; /* Full width */
+    
+}

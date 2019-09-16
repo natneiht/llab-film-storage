@@ -12,7 +12,7 @@ class Header extends PureComponent {
 						className="stnd default-logo dark-version"
 						alt="FILM STORE"
 						src="https://filmstore.vn/wp-content/uploads/2018/08/llab-e1562947995671.jpg?2913d2&amp;2913d2"
-						style={{ height: '80px' }}
+						style={{ height: '50px' }}
 					></img>
 				</NavLink>
 				<ul className="nav-menu">

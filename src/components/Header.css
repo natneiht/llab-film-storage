@@ -13,13 +13,13 @@
   }
 
 
-.navbar li {
+.navbar ul, li {
   display: inline-block;
-  float: left;
+  text-align: left;
 }
   
   /* Links inside the navbar */
-  .navbar a {
+  .navbar ul>li>a {
     float: left;
     display: block;
     color: #888;

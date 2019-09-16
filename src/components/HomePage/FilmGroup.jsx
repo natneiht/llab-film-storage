@@ -19,7 +19,7 @@ class FilmGroup extends PureComponent {
 				</thead>
 				<tbody>
 					{filmArray.map((filmDetail, index) => (
-						<FilmItem key={index} filmData={filmDetail} />
+						filmDetail.data.filmCategory===categoryName?<FilmItem key={index} filmData={filmDetail} />:null
 					))}
 				</tbody>
 			</table>
