@@ -45,24 +45,25 @@ class FilmItem extends PureComponent {
 		this.props.addNewFilm(newFilmDetail);
 	};
 	render() {
-		const { filmDetail, deleteFilm } = this.props;
+		const { filmData, deleteFilm } = this.props;
 		const { editMode } = this.state;
-		const filmStatus = filmDetail.status === 'in' ? true : false;
+		const filmDetail = filmData.data;
+		const filmStatus = filmDetail.filmStatus === 'in' ? true : false;
 		const statusClass = filmStatus ? '' : 'table-secondary';
 		// console.log(this.props.filmDetail.status);
 		const showView = (
 			<tr className={statusClass}>
 				<td scope="row">
-					<img src={filmDetail.image_url} />
+					<img src={filmDetail.filmImageUrl} />
 				</td>
 				<td>
-					<span>{filmDetail.name}</span>
+					<span>{filmDetail.filmName}</span>
 				</td>
 				<td>
-					<span>{filmDetail.date}</span>
+					<span>{filmDetail.filmDate}</span>
 				</td>
 				<td>
-					<span>{filmDetail.price}</span>
+					<span>{filmDetail.filmPrice}</span>
 				</td>
 				<td>
 					<button
@@ -70,7 +71,7 @@ class FilmItem extends PureComponent {
 						className={`status-button btn ${!filmStatus ? 'btn-outline-danger' : 'btn-outline-success'}`}
 						onClick={this.toggleFilmStatus}
 					>
-						{filmDetail.status === 'in' ? 'In stock' : 'Out stock'}
+						{filmDetail.filmStatus === 'in' ? 'In stock' : 'Out stock'}
 					</button>
 				</td>
 				<td>
@@ -102,13 +103,13 @@ class FilmItem extends PureComponent {
 					</div>
 				</td>
 				<td>
-					<span>{filmDetail.name}</span>
+					<span>{filmDetail.filmName}</span>
 				</td>
 				<td>
 					<input
 						className="edit-date"
 						type="text"
-						defaultValue={filmDetail.date}
+						defaultValue={filmDetail.filmDate}
 						onChange={e => this.changeFilmDetail({ date: e.target.value })}
 					/>
 				</td>
@@ -116,7 +117,7 @@ class FilmItem extends PureComponent {
 					<input
 						className="edit-price"
 						type="text"
-						defaultValue={filmDetail.price}
+						defaultValue={filmDetail.filmPrice}
 						onChange={e => this.changeFilmDetail({ price: e.target.value })}
 					/>
 				</td>

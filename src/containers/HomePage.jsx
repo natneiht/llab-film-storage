@@ -4,76 +4,62 @@ import Axios from 'axios';
 import './HomePage.css';
 import { apiUrl, staticData } from '../appConstant';
 import { request } from '../requestApi';
-import FilmItem from '../components/FilmItem/FilmItem';
-import NewItem from '../components/FilmItem/NewItem';
-// import '../static.json';
+import FilmItem from '../components/HomePage/FilmItem/FilmItem';
+import NewItem from '../components/HomePage/FilmItem/NewItem';
+import FilmGroup from '../components/HomePage/FilmGroup';
+import { db } from '../firebase';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs'
+
 
 class HomePage extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
 			filmList: [],
-			addMode: false
+			loading: true
 		};
 	}
 
 	async componentDidMount() {
-		const response = await Axios.get( 'https://us-central1-llab-development.cloudfunctions.net/fetch_film_store');
-		const responseData = response.data.data;
-		this.setState({ filmList: responseData });
-	}
-
-	generateFilmId = () => {
-		const { filmList } = this.state;
-		const idArray = [];
-		filmList.forEach(item=> idArray.push(Number(item.id)));
-		idArray.sort(function(a, b){return a - b});
-		return Number(idArray[idArray.length-1]) + 1;
-	}
-
-	addNewFilm = newDetail => {
-		const newFilmList = [...this.state.filmList];
-		const foundItem = newFilmList.findIndex(item => item.id == newDetail.id);
-		if (foundItem >= 0) {
-			newFilmList[foundItem] = newDetail;
-		} else {
-			const newId = this.generateFilmId();
-			newFilmList.push({...newDetail, id: newId});
-		}
-		this.setState({ filmList: newFilmList, addMode: false });
-	};
-
-	deleteFilm = itemDetail => {
-		
-		const newFilmList = [...this.state.filmList];
-		const foundItem = newFilmList.findIndex(item => item.id == itemDetail.id);
-		console.log(foundItem);
-		if (foundItem >= 0) {
-			newFilmList.splice(foundItem,1);
-		}
-		this.setState({ filmList: newFilmList, addMode: false });
-
-	}
-
-    addNewItem = () => {
-        this.setState({addMode: true})
-	}
-	
-	putDetailToServer = () => {
-		console.log(this.state.filmList);
-		const response = Axios.post( 'https://us-central1-llab-development.cloudfunctions.net/fetch_film_store', {data: this.state.filmList});
-		response.then(data =>console.log(data)).catch(err=> console.log(err));
-	}
-
-	cancelAddMode = () => {
-		this.setState({addMode: false})
-	}
+		db.collection('FilmList')
+			.get()
+			.then(querySnapshot => {
+				const data = querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data()}));
+				console.log(data);
+				this.setState({filmList: data, loading: false})
+			});
+    }
 
 	render() {
-		const { filmList, addMode } = this.state;
+		
+		const { filmList, loading } = this.state;
+		if(loading) return (<div className="main"><h5>Loading...</h5></div>);
+		const film120 = filmList.map(item => item.filmCatgory=="120");
+		const film135 = filmList.map(item => item.filmCatgory=="135");
+		const filmAccessories = filmList.map(item => item.filmCatgory=="Accessories");
+		const filmChemistry = filmList.map(item => item.filmCatgory=="Chemistry");
 		return (
 			<div className="main">
-				<table className="table table-hover">
+
+			
+				<Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+				<Tab eventKey="film135" title="Film 135">
+					<FilmGroup filmArray={film135} categoryName="Film 135" />
+				</Tab>
+				<Tab eventKey="film120" title="Film 120">
+					<FilmGroup filmArray={film120} categoryName="Film 120" />
+				</Tab>
+				<Tab eventKey="filmAccessories" title="Accessories">
+					<FilmGroup filmArray={filmAccessories} categoryName="Accessories" />
+				</Tab>
+				<Tab eventKey="filmChemistry" title="Chemistry">
+					<FilmGroup filmArray={filmChemistry} categoryName="Chemistry" />
+				</Tab>
+				</Tabs>
+
+
+				{/* <table className="table table-hover">
 					<thead>
 						<tr>
 							<th scope="col">#</th>
@@ -84,15 +70,19 @@ class HomePage extends PureComponent {
 							<th scope="col">#</th>
 						</tr>
 					</thead>
-					<tbody>
-						{filmList.map((filmDetail, index) => (
-							<FilmItem key={index} filmDetail={filmDetail}
-								addNewFilm={this.addNewFilm}
-								deleteFilm={this.deleteFilm}/>
-						))}
+					<tbody> */}
+					{/* {categoryArray.map(category =>(
+						<FilmGroup categoryName={categoryName[category]} filmArray={filmList[category]}/>
+					))} */}
+					            {/* { filmList.map((filmData, index) => (
+                <FilmItem key={index} filmData={filmData}
+                    addNewFilm={this.addNewFilm}
+                    deleteFilm={this.deleteFilm}/>
+           		 ))} */}
+												
 
 						{/* Add new item */}
-						{addMode && <NewItem addNewFilm={this.addNewFilm} cancelAddMode={this.cancelAddMode}/>}
+						{/* {addMode && <NewItem addNewFilm={this.addNewFilm} cancelAddMode={this.cancelAddMode}/>}
 						<tr>
                             <td colSpan="4" />
 							<td>
@@ -109,7 +99,7 @@ class HomePage extends PureComponent {
 							</td>
 						</tr>
 					</tbody>
-				</table>
+				</table> */}
 			</div>
 		);
 	};
