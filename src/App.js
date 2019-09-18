@@ -5,6 +5,7 @@ import Header from './components/Header';
 import { BrowserRouter, Switch, Route, Link, NavLink } from 'react-router-dom';
 import HomePage from './containers/HomePage';
 import Login from './containers/Login';
+import AdminPage from './containers/AdminPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
     <Switch>
       <Route exact path="/" component={HomePage} />
       <Route exact path="/login" component={Login} />
+      <Route exact path="/admin" component={AdminPage} />
       <Route
         render={props => (
           <div className="container" style={{ marginTop: '200px' }}>

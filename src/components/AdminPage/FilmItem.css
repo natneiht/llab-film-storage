@@ -10,7 +10,7 @@ td img {
     width: 80px;
 }
 
-.edit-price {
+.edit-price, .edit-name {
     text-align:center;
     /* padding:5px; */
     width: 80% ;
@@ -41,4 +41,12 @@ td img {
 
 .status-button {
     text-transform: capitalize;
+}
+
+.in-stock {
+    color: #347235;
+}
+
+.out-stock {
+    color: #7E2217;
 }

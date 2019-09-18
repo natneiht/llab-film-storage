@@ -4,12 +4,14 @@ import Axios from 'axios';
 import './HomePage.css';
 import { apiUrl, staticData } from '../appConstant';
 import { request } from '../requestApi';
-import FilmItem from '../components/HomePage/FilmItem/FilmItem';
-import NewItem from '../components/HomePage/FilmItem/NewItem';
-import FilmGroup from '../components/HomePage/FilmGroup';
+import FilmItem from '../components/AdminPage/FilmItem';
+import NewItem from '../components/AdminPage/NewItem';
+import FilmGroup from '../components/AdminPage/FilmGroup';
 import { db } from '../firebase';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs'
 
-class HomePage extends PureComponent {
+class AdminPage extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -33,13 +35,13 @@ class HomePage extends PureComponent {
 			});
     }
 
-	generateFilmId = () => {
-		const { filmList } = this.state;
-		const idArray = [];
-		filmList.forEach(item=> idArray.push(Number(item.id)));
-		idArray.sort(function(a, b){return a - b});
-		return Number(idArray[idArray.length-1]) + 1;
-	}
+	// generateFilmId = () => {
+	// 	const { filmList } = this.state;
+	// 	const idArray = [];
+	// 	filmList.forEach(item=> idArray.push(Number(item.id)));
+	// 	idArray.sort(function(a, b){return a - b});
+	// 	return Number(idArray[idArray.length-1]) + 1;
+	// }
 
 	addNewFilm = newDetail => {
 		const newFilmList = [...this.state.filmList];
@@ -69,10 +71,10 @@ class HomePage extends PureComponent {
         this.setState({addMode: true})
 	}
 	
-	putDetailToServer = () => {
-		console.log(this.state.filmList);
-		const response = Axios.post( 'https://us-central1-llab-development.cloudfunctions.net/fetch_film_store', {data: this.state.filmList});
-		response.then(data =>console.log(data)).catch(err=> console.log(err));
+	updateFilmDetail = (filmId, filmDetail) => {
+		// console.log(this.state.filmList);
+		// const response = Axios.post( 'https://us-central1-llab-development.cloudfunctions.net/fetch_film_store', {data: this.state.filmList});
+		// response.then(data =>console.log(data)).catch(err=> console.log(err));
 	}
 
 	cancelAddMode = () => {
@@ -83,18 +85,10 @@ class HomePage extends PureComponent {
 		
 		const { filmList, addMode, loading } = this.state;
 		if(loading) return (<div className="main"><h3>Can not get film list.</h3></div>);
-		// const categoryArray = Object.keys(filmList);
-		// categoryArray.map(cat => console.log(filmList[cat]));
-		// const categoryName = {
-		// 	accessories: "Accessories",
-		// 	chemistry: "Chemistry",
-		// 	film_120: "Film 120",
-		// 	film_135: "Film 135",
-		// 	sheet_film_4x5: "Sheet film 4x5",
-		// }
+
 		return (
 			<div className="main">
-				<table className="table table-hover">
+				{/* <table className="table table-hover">
 					<thead>
 						<tr>
 							<th scope="col">#</th>
@@ -105,40 +99,34 @@ class HomePage extends PureComponent {
 							<th scope="col">#</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody> */}
 					{/* {categoryArray.map(category =>(
 						<FilmGroup categoryName={categoryName[category]} filmArray={filmList[category]}/>
 					))} */}
-					            { filmList.map((filmData, index) => (
-                <FilmItem key={index} filmData={filmData}
-                    addNewFilm={this.addNewFilm}
-                    deleteFilm={this.deleteFilm}/>
-           		 ))}
+					<Tabs defaultActiveKey="film135" id="uncontrolled-tab-example">
+					<Tab eventKey="film135" title="Film 135">
+						<FilmGroup filmArray={filmList} categoryName="135" />
+					</Tab>
+					<Tab eventKey="film120" title="Film 120">
+						<FilmGroup filmArray={filmList} categoryName="120" />
+					</Tab>
+					<Tab eventKey="filmAccessories" title="Accessories">
+						<FilmGroup filmArray={filmList} categoryName="Accessories" />
+					</Tab>
+					<Tab eventKey="filmChemistry" title="Chemistry">
+						<FilmGroup filmArray={filmList} categoryName="Chemistry" />
+					</Tab>
+					</Tabs>
 												
 
 						{/* Add new item */}
-						{addMode && <NewItem addNewFilm={this.addNewFilm} cancelAddMode={this.cancelAddMode}/>}
-						<tr>
-                            <td colSpan="4" />
-							<td>
-								{!addMode && (<button type="button" className="status-button btn btn-outline-success"
-                                onClick={this.addNewItem}>
-									Add new
-								</button>)}
-							</td>
-							<td>
-								<button type="button" className="status-button btn btn-outline-success"
-								onClick={this.putDetailToServer}>
-									Update
-								</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+
+					{/* </tbody>
+				</table> */}
 			</div>
 		);
 	};
 }
-HomePage.propTypes = {};
+AdminPage.propTypes = {};
 
-export default HomePage;
+export default AdminPage;

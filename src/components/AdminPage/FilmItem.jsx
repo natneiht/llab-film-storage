@@ -5,13 +5,14 @@ import editIcon from '../../icons/edit.svg';
 import doneIcon from '../../icons/done.svg';
 import cancelIcon from '../../icons/cancel.svg';
 import deleteIcon from '../../icons/delete.svg';
+import { db } from '../../firebase';
 
 class FilmItem extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
 			editMode: false,
-			newFilmDetail: this.props.filmDetail
+			filmData: this.props.filmData
 		};
 	}
 
@@ -19,37 +20,41 @@ class FilmItem extends PureComponent {
 		this.setState({ editMode: true });
 	};
 
-	changeFilmDetail = detail => {
-		const newFilmDetail = {
-			...this.state.newFilmDetail,
-			...detail
-		};
-		this.setState({
-			newFilmDetail
-		});
-	};
 
-	updateFilmDetail = () => {
-		const { newFilmDetail } = this.state;
-		this.setState({ editMode: false });
-		this.props.addNewFilm(newFilmDetail);
-	};
+	updateFilmDetail = () =>{
+		const {id, data} = this.state.filmData;
+		const { newUrl, newFilmDate, newFilmPrice, newFilmName, filmStatus } = this.refs;
+		if( !(newUrl.value && newFilmDate.value && newFilmPrice.value )) return;
+		console.log(this.props.filmData);
+		const newDetail = {
+			...data,
+			filmName: newFilmName.value,
+			filmImageUrl: newUrl.value,
+			filmPrice: newFilmPrice.value,
+			filmDate: newFilmDate.value,
+			filmStatus: filmStatus.checked?"in":"out"
+		}
+		console.log(id, newDetail);
+		try {
+			db.collection('FilmList').doc(id).set({...newDetail}).then(res => console.log(res));
+			
 
-	toggleFilmStatus = () => {
-		const filmStatus = this.props.filmDetail.status;
-		alert(filmStatus === 'in' ? 'Đã thông báo hết hàng!' : 'Đã thông báo còn hàng!');
-		const newFilmDetail = {
-			...this.state.newFilmDetail,
-			status: filmStatus === 'in' ? 'out' : 'in'
-		};
-		this.props.addNewFilm(newFilmDetail);
-	};
+				this.setState({filmData: {id, data: newDetail}, editMode:false});
+			}
+			catch(error) {
+				console.log(error);
+			}
+	}
+
+
 	render() {
-		const { filmData, deleteFilm } = this.props;
-		const { editMode } = this.state;
+		console.log(this.props);
+		const { deleteFilm } = this.props;
+		const { filmData, editMode } = this.state;
 		const filmDetail = filmData.data;
 		const filmStatus = filmDetail.filmStatus === 'in' ? true : false;
-		const statusClass = filmStatus ? '' : 'table-secondary';
+		const statusClass = filmStatus ? 'in-stock' : 'out-stock';
+		// console.log(filmStatus);
 		// console.log(this.props.filmDetail.status);
 		const showView = (
 			<tr className={statusClass}>
@@ -66,13 +71,9 @@ class FilmItem extends PureComponent {
 					<span>{filmDetail.filmPrice}</span>
 				</td>
 				<td>
-					<button
-						type="button"
-						className={`status-button btn ${!filmStatus ? 'btn-outline-danger' : 'btn-outline-success'}`}
-						onClick={this.toggleFilmStatus}
-					>
+					<span className={statusClass}>
 						{filmDetail.filmStatus === 'in' ? 'In stock' : 'Out stock'}
-					</button>
+					</span>
 				</td>
 				<td>
 					<button
@@ -97,20 +98,26 @@ class FilmItem extends PureComponent {
 		const editView = (
 			<tr className={statusClass}>
 				<td scope="row">
-					<img src={filmDetail.image_url} />
+					<img src={filmDetail.filmImageUrl} />
 					<div className="edit-url">
-						<input type="text" defaultValue={filmDetail.image_url} ref="newUrl" />
+						<input type="text" defaultValue={filmDetail.filmImageUrl} ref="newUrl" />
 					</div>
 				</td>
 				<td>
-					<span>{filmDetail.filmName}</span>
+					<span></span>
+					<input
+						className="edit-name"
+						type="text"
+						defaultValue={filmDetail.filmName}
+						ref="newFilmName"
+					/>
 				</td>
 				<td>
 					<input
 						className="edit-date"
 						type="text"
 						defaultValue={filmDetail.filmDate}
-						onChange={e => this.changeFilmDetail({ date: e.target.value })}
+						ref="newFilmDate"
 					/>
 				</td>
 				<td>
@@ -118,17 +125,20 @@ class FilmItem extends PureComponent {
 						className="edit-price"
 						type="text"
 						defaultValue={filmDetail.filmPrice}
-						onChange={e => this.changeFilmDetail({ price: e.target.value })}
+						ref="newFilmPrice"
 					/>
 				</td>
 				<td>
-					<button
+					{/* <button
 						type="button"
 						className={`status-button btn ${!filmStatus ? 'btn-outline-danger' : 'btn-outline-success'}`}
 						onClick={this.toggleFilmStatus}
 					>
 						{filmDetail.status === 'in' ? 'In stock' : 'Out stock'}
-					</button>
+					</button> */}
+					<input type="checkbox" defaultChecked={filmStatus} ref="filmStatus" />
+					<div>{filmStatus? 'In stock' : 'Out stock'}</div>
+    				{/* <label class="form-check-label" for="exampleCheck1">Check me out</label> */}
 				</td>
 				<td>
 					<button

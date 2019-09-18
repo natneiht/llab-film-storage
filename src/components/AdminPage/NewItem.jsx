@@ -4,66 +4,99 @@ import './FilmItem.css';
 import editIcon from '../../icons/edit.svg';
 import doneIcon from '../../icons/done.svg';
 import cancelIcon from '../../icons/cancel.svg';
+import {db} from '../../firebase';
 
 class NewItem extends PureComponent {
 
-    submitNewFilm = () => {
-        const {newUrl, newName, newDate, newPrice } = this.refs;
+    addNewFilm = () => {
+		const { newUrl, newFilmDate, newFilmPrice, newFilmName, filmStatus } = this.refs;
         // Validate data
-        if(!(newUrl.value && newName.value && newDate.value && newPrice.value)){
+        // if(!(newUrl.value && newName.value && newDate.value && newPrice.value)){
+		// 	alert('Nhập đầy đủ thông tin!')
+		// 	return;
+		// }
+
+		if( !(newUrl.value && newFilmDate.value && newFilmPrice.value && newFilmName.value )){
 			alert('Nhập đầy đủ thông tin!')
 			return;
 		}
-        this.props.addNewFilm({
-            name: newName.value,
-            image_url: newUrl.value,
-            date: newDate.value,
-            price: newPrice.value,
-            status: 'in',
-        });
-        
+		const newItem = {
+			filmImageUrl: newUrl.value,
+            filmName: newFilmName.value,
+            filmDate: newFilmDate.value,
+            filmPrice: newFilmPrice.value,
+            filmCategory: this.props.categoryName,
+            filmType: this.props.categoryName,
+            filmNewArrival: false,
+            filmShowInList: true,
+			filmStatus: filmStatus.checked?"in":"out"
+		}
+		// console.log(id, newDetail);
+		try {
+			db.collection('FilmList').add({...newItem}).then(ref => console.log(ref));
+			
+
+				// this.setState({filmData: {id, data: newDetail}, editMode:false});
+			}
+			catch(error) {
+				console.log(error);
+			}
     }
 
 	render() {
 		return (
-			<tr>
+		<tr>
 				<td scope="row">
-					{/* <img src={this.refs.newUrl.value} /> */}
+					{/* <img src={filmDetail.filmImageUrl} /> */}
 					<div className="edit-url">
 						<input type="text" ref="newUrl" />
 					</div>
 				</td>
 				<td>
-					<div className="edit-name">
-						<input type="text" ref="newName" />
-					</div>
+					<span></span>
+					<input
+						className="edit-name"
+						type="text"
+						ref="newFilmName"
+					/>
 				</td>
 				<td>
-                    <div className="edit-date">
-						<input type="text" ref="newDate" />
-					</div>
+					<input
+						className="edit-date"
+						type="text"
+						ref="newFilmDate"
+					/>
 				</td>
 				<td>
-                    <div className="edit-price">
-						<input type="text" ref="newPrice" />
-					</div>
+					<input
+						className="edit-price"
+						type="text"
+						ref="newFilmPrice"
+					/>
+				</td>
+				<td>
+
+					<input type="checkbox" defaultChecked={true} ref="filmStatus" />
+					<div>In stock</div>
+
 				</td>
 				<td>
 					<button
 						type="button"
-						className={`status-button btn btn-outline-success disabled`}>
-                        In stock
-					</button>
-				</td>
-				<td>
-					<button type="button" className="btn btn-light edit-button" onClick={this.submitNewFilm}>
+						title="Done editting"
+						className="btn btn-light edit-button"
+						onClick={this.addNewFilm}
+					>
 						<img src={doneIcon} />
 					</button>
-
-					<button type="button" className="btn btn-light edit-button" onClick={this.props.cancelAddMode}>
+					<button
+						type="button"
+						title="Cancel editting"
+						className="btn btn-light edit-button"
+						onClick={() => this.props.cancelAddMode}
+					>
 						<img src={cancelIcon} />
 					</button>
-
 				</td>
 			</tr>
 		);
