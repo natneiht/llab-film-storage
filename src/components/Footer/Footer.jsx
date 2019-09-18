@@ -6,7 +6,7 @@ class Footer extends PureComponent {
 	render() {
 		return (
 			<div className="footer-container">
-				<h3 className="media-heading">Mail</h3>
+				<h3 className="media-heading">Llab</h3>
 				<p>
                 © 2019 FILM STORE. Coppyright by @LLab Co.Ltd Version 2.1
 				</p>

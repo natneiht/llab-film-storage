@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Header from './components/Header';
@@ -13,8 +13,10 @@ function App() {
     <Header />
     <Switch>
       <Route exact path="/" component={HomePage} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/admin" component={AdminPage} />
+      <Suspense fallback={(<div>Loading...</div>)}>
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/admin" component={AdminPage} />
+      </Suspense>
       <Route
         render={props => (
           <div className="container" style={{ marginTop: '200px' }}>
