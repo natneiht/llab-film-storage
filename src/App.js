@@ -4,8 +4,8 @@ import './App.css';
 import Header from './components/Header';
 import { BrowserRouter, Switch, Route, Link, NavLink } from 'react-router-dom';
 import HomePage from './containers/HomePage';
-import Login from './containers/Login';
-import AdminPage from './containers/AdminPage';
+const Login = React.lazy(()=> import('./containers/Login'));
+const AdminPage = React.lazy(() =>import('./containers/AdminPage'));
 
 function App() {
   return (

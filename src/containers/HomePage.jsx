@@ -1,12 +1,13 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import './HomePage.css';
-import FilmGroup from '../components/HomePage/FilmGroup';
 import { db } from '../firebase';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs'
 import LabNoti from '../components/HomePage/LabNoti';
 import Footer from '../components/Footer/Footer';
+const FilmGroup = React.lazy(() => import('../components/HomePage/FilmGroup'));
+
 
 
 class HomePage extends PureComponent {
@@ -37,7 +38,7 @@ class HomePage extends PureComponent {
 			<>
 			<div className="main">
 				<LabNoti />
-			
+				<Suspense fallback={(<div>Loading...</div>)}>
 				<Tabs defaultActiveKey="film135" id="uncontrolled-tab-example">
 				<Tab eventKey="film135" title="Film 135">
 					<FilmGroup filmArray={filmList} categoryName="135" />
@@ -52,7 +53,7 @@ class HomePage extends PureComponent {
 					<FilmGroup filmArray={filmList} categoryName="Chemistry" />
 				</Tab>
 				</Tabs>
-
+				</Suspense>
 			</div>
 			<Footer />
 			</>
