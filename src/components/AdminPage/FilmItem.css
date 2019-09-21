@@ -6,11 +6,19 @@ td {
     text-align: center !important;
 }
 td img {
-    height: 80px;
-    width: 80px;
+    /* position: absolute; */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+
 }
 
-.edit-price, .edit-name {
+td span {
+    word-break: keep-all;
+}
+
+.edit-price {
     text-align:center;
     /* padding:5px; */
     width: 80% ;
@@ -41,12 +49,4 @@ td img {
 
 .status-button {
     text-transform: capitalize;
-}
-
-.in-stock {
-    color: #347235;
-}
-
-.out-stock {
-    color: #7E2217;
 }

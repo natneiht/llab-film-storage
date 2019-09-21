@@ -14,7 +14,7 @@ class FilmItem extends PureComponent {
 		return (
 			<tr className={statusClass}>
 				<td scope="row">
-					<img src={filmDetail.filmImageUrl} />
+					<img className="film-image" src={filmDetail.filmImageUrl} />
 				</td>
 				<td>
 					<span>{filmDetail.filmName}</span>

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class LabNoti extends PureComponent {
 	render() {
 		return (
-			<div>
+			<div style={{paddingLeft: "25px"}}>
 				<h3>Danh sách các mặt hàng có tại Llab:</h3>
 				<p>
 					<em>

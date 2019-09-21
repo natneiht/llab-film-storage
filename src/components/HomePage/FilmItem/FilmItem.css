@@ -6,8 +6,16 @@ td {
     text-align: center !important;
 }
 td img {
-    height: 80px;
-    width: 80px;
+    /* position: absolute; */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+
+}
+
+td span {
+    word-break: keep-all;
 }
 
 .edit-price {
@@ -41,4 +49,10 @@ td img {
 
 .status-button {
     text-transform: capitalize;
+}
+
+@media only screen and (max-width: 600px) {
+    td, th {
+        font-size: 12px;
+    }
 }
