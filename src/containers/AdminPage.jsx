@@ -43,28 +43,31 @@ class AdminPage extends PureComponent {
 	// 	return Number(idArray[idArray.length-1]) + 1;
 	// }
 
-	addNewFilm = newDetail => {
-		const newFilmList = [...this.state.filmList];
-		const foundItem = newFilmList.findIndex(item => item.id == newDetail.id);
-		if (foundItem >= 0) {
-			newFilmList[foundItem] = newDetail;
-		} else {
-			const newId = this.generateFilmId();
-			newFilmList.push({...newDetail, id: newId});
-		}
-		this.setState({ filmList: newFilmList, addMode: false });
-	};
+	// addNewFilm = newDetail => {
+	// 	const newFilmList = [...this.state.filmList];
+	// 	const foundItem = newFilmList.findIndex(item => item.id == newDetail.id);
+	// 	if (foundItem >= 0) {
+	// 		newFilmList[foundItem] = newDetail;
+	// 	} else {
+	// 		const newId = this.generateFilmId();
+	// 		newFilmList.push({...newDetail, id: newId});
+	// 	}
+	// 	this.setState({ filmList: newFilmList, addMode: false });
+	// };
 
 	deleteFilm = itemDetail => {
-		
-		const newFilmList = [...this.state.filmList];
-		const foundItem = newFilmList.findIndex(item => item.id == itemDetail.id);
-		console.log(foundItem);
-		if (foundItem >= 0) {
-			newFilmList.splice(foundItem,1);
+		try{
+			db.collection("FilmList").doc(itemDetail.id).delete().then(function() {
+				alert("Delete successfully!");
+				console.log("Document successfully deleted!");
+				// this.setState({...this.state});
+			}).catch(function(error) {
+				console.error("Error removing document: ", error);
+			});
 		}
-		this.setState({ filmList: newFilmList, addMode: false });
-
+		catch (error){
+			console.error(error);
+		}
 	}
 
     addNewItem = () => {
@@ -105,16 +108,16 @@ class AdminPage extends PureComponent {
 					))} */}
 					<Tabs defaultActiveKey="film135" id="uncontrolled-tab-example">
 					<Tab eventKey="film135" title="Film 135">
-						<FilmGroup filmArray={filmList} categoryName="135" />
+						<FilmGroup filmArray={filmList} categoryName="135" deleteFilm={this.deleteFilm}/>
 					</Tab>
 					<Tab eventKey="film120" title="Film 120">
-						<FilmGroup filmArray={filmList} categoryName="120" />
+						<FilmGroup filmArray={filmList} categoryName="120" deleteFilm={this.deleteFilm}/>
 					</Tab>
 					<Tab eventKey="filmAccessories" title="Accessories">
-						<FilmGroup filmArray={filmList} categoryName="Accessories" />
+						<FilmGroup filmArray={filmList} categoryName="Accessories" deleteFilm={this.deleteFilm} />
 					</Tab>
 					<Tab eventKey="filmChemistry" title="Chemistry">
-						<FilmGroup filmArray={filmList} categoryName="Chemistry" />
+						<FilmGroup filmArray={filmList} categoryName="Chemistry" deleteFilm={this.deleteFilm}/>
 					</Tab>
 					</Tabs>
 												

@@ -20,6 +20,9 @@ class FilmItem extends PureComponent {
 					<span>{filmDetail.filmName}</span>
 				</td>
 				<td>
+					<span>{filmDetail.filmType}</span>
+				</td>
+				<td>
 					<span>{filmDetail.filmDate}</span>
 				</td>
 				<td>

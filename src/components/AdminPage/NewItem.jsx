@@ -33,7 +33,10 @@ class NewItem extends PureComponent {
 		}
 		// console.log(id, newDetail);
 		try {
-			db.collection('FilmList').add({...newItem}).then(ref => console.log(ref));
+			db.collection('FilmList').add({...newItem}).then(ref => {
+				console.log(ref);
+				this.props.cancelAddMode();
+			});
 			
 
 				// this.setState({filmData: {id, data: newDetail}, editMode:false});

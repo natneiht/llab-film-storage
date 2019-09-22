@@ -15,6 +15,9 @@ class FilmGroup extends PureComponent {
 	cancelAddMode = () => {
 		this.setState({addMode: false});
 	}
+
+
+	
 	render() {
 		const { filmArray, categoryName } = this.props;
 		const {addMode} = this.state;
@@ -32,7 +35,7 @@ class FilmGroup extends PureComponent {
 				</thead>
 				<tbody>
 					{filmArray.map((filmDetail, index) => (
-						filmDetail.data.filmCategory===categoryName?<FilmItem key={index} filmData={filmDetail} />:null
+						filmDetail.data.filmCategory===categoryName?<FilmItem key={index} filmData={filmDetail} deleteFilm={this.props.deleteFilm}/>:null
 					))}
 
 					{addMode && <NewItem categoryName={categoryName} cancelAddMode={this.cancelAddMode}/>}

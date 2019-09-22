@@ -1,9 +1,11 @@
 /* .film-item {
 
 } */
-td {
+td, th {
     vertical-align: middle !important;
     text-align: center !important;
+    border-bottom:1px solid #ccc;
+    overflow-x: auto;
 }
 td img {
     /* position: absolute; */
@@ -16,6 +18,11 @@ td img {
 
 td span {
     word-break: keep-all;
+}
+
+.film-image {
+    width: 100px;
+    height: auto;
 }
 
 .edit-price {
@@ -53,6 +60,10 @@ td span {
 
 @media only screen and (max-width: 600px) {
     td, th {
-        font-size: 12px;
+        font-size: 11px;
+    }
+    .film-image {
+        width: 100%;
+        height: auto;
     }
 }

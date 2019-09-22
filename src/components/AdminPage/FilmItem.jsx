@@ -45,7 +45,7 @@ class FilmItem extends PureComponent {
 				console.log(error);
 			}
 	}
-
+	
 
 	render() {
 		console.log(this.props);
@@ -88,7 +88,7 @@ class FilmItem extends PureComponent {
 						type="button"
 						title="Delete from store"
 						className="btn btn-light edit-button"
-						onClick={() => deleteFilm(filmDetail)}
+						onClick={() => deleteFilm(filmData)}
 					>
 						<img src={deleteIcon} />
 					</button>
