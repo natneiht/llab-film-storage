@@ -46,10 +46,14 @@ class FilmItem extends PureComponent {
 			}
 	}
 	
+	deleteFilmItem = filmItem => {
+		const { deleteFilm } = this.props;
+		deleteFilm(FilmItem);
+		this.setState({filmData: null});
+	}
 
 	render() {
-		console.log(this.props);
-		const { deleteFilm } = this.props;
+		if(!this.state.filmData) return (<div></div>);
 		const { filmData, editMode } = this.state;
 		const filmDetail = filmData.data;
 		const filmStatus = filmDetail.filmStatus === 'in' ? true : false;
@@ -88,7 +92,7 @@ class FilmItem extends PureComponent {
 						type="button"
 						title="Delete from store"
 						className="btn btn-light edit-button"
-						onClick={() => deleteFilm(filmData)}
+						onClick={() => this.deleteFilmItem(filmData)}
 					>
 						<img src={deleteIcon} />
 					</button>

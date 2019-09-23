@@ -35,7 +35,7 @@ class HomePage extends PureComponent {
 		if(loading) return (<div className="main"><h5>Loading...</h5></div>);
 
 		return (
-			<>
+			<div className="container">
 			<div className="main">
 				
 				<Suspense fallback={(<div>Loading...</div>)}>
@@ -57,7 +57,7 @@ class HomePage extends PureComponent {
 				</Suspense>
 			</div>
 			<Footer />
-			</>
+			</div>
 		);
 	};
 }

@@ -10,6 +10,7 @@ import FilmGroup from '../components/AdminPage/FilmGroup';
 import { db } from '../firebase';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs'
+import { throwStatement } from '@babel/types';
 
 class AdminPage extends PureComponent {
 	constructor(props) {
@@ -56,10 +57,15 @@ class AdminPage extends PureComponent {
 	// };
 
 	deleteFilm = itemDetail => {
+		if (!window.confirm('Are you sure you wish to delete this item?')) return;
 		try{
 			db.collection("FilmList").doc(itemDetail.id).delete().then(function() {
 				alert("Delete successfully!");
 				console.log("Document successfully deleted!");
+				// const { filmList } = this.state
+				// const findItem = filmList.findIndex(item => item.id==itemDetail.id);
+				// const newList = filmList.splice(findItem,1);
+				// this.setState({filmList: newList});
 				// this.setState({...this.state});
 			}).catch(function(error) {
 				console.error("Error removing document: ", error);
@@ -87,9 +93,10 @@ class AdminPage extends PureComponent {
 	render() {
 		
 		const { filmList, addMode, loading } = this.state;
-		if(loading) return (<div className="main"><h3>Can not get film list.</h3></div>);
+		if(loading) return (<div className="container"><h3>Loading...</h3></div>);
 
 		return (
+			<div className="container">
 			<div className="main">
 				{/* <table className="table table-hover">
 					<thead>
@@ -126,6 +133,7 @@ class AdminPage extends PureComponent {
 
 					{/* </tbody>
 				</table> */}
+			</div>
 			</div>
 		);
 	};
