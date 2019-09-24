@@ -28,7 +28,7 @@ class Header extends PureComponent {
 										</li>
 
 										<li>
-											<NavLink to="/print">
+											<NavLink to="/login">
 												In ảnh
 											</NavLink>
 										</li>

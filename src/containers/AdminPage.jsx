@@ -10,7 +10,8 @@ import FilmGroup from '../components/AdminPage/FilmGroup';
 import { db } from '../firebase';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs'
-import { throwStatement } from '@babel/types';
+import firebase from 'firebase';
+import { getUserRole } from '../functions';
 
 class AdminPage extends PureComponent {
 	constructor(props) {
@@ -91,7 +92,15 @@ class AdminPage extends PureComponent {
 	}
 
 	render() {
-		
+		var user = firebase.auth().currentUser;
+		// if (!user) {
+		// 	this.props.history.push('/login');
+		// 	// return;
+		// }
+		if (user) {
+			console.log(user.email)
+			console.log(getUserRole(user.email));
+		}
 		const { filmList, addMode, loading } = this.state;
 		if(loading) return (<div className="container"><h3>Loading...</h3></div>);
 
