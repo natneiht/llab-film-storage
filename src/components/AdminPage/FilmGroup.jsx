@@ -5,22 +5,8 @@ import NewItem from './NewItem';
 
 class FilmGroup extends PureComponent {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			addMode: false
-		}
-	}
-
-	cancelAddMode = () => {
-		this.setState({addMode: false});
-	}
-
-
-	
 	render() {
-		const { filmArray, categoryName } = this.props;
-		const {addMode} = this.state;
+		const { filmArray, categoryName, addNewItem } = this.props;
 		return (
 			<table className="table table-hover">
 				<thead>
@@ -38,14 +24,14 @@ class FilmGroup extends PureComponent {
 						filmDetail.data.filmCategory===categoryName?<FilmItem key={index} filmData={filmDetail} deleteFilm={this.props.deleteFilm}/>:null
 					))}
 
-					{addMode && <NewItem categoryName={categoryName} cancelAddMode={this.cancelAddMode}/>}
+					{/* {addMode && <NewItem categoryName={categoryName} cancelAddMode={this.cancelAddMode}/>} */}
 						<tr>
                             <td colSpan="5" />
 							<td>
-								{!addMode && (<button type="button" className="status-button btn btn-outline-success"
-                                onClick={() => this.setState({addMode: true})}>
+								<button type="button" className="status-button btn btn-outline-success"
+                                onClick={() => addNewItem()}>
 									Add new
-								</button>)}
+								</button>
 							</td>
 						</tr>
 				</tbody>

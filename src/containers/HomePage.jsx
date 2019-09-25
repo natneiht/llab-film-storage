@@ -50,13 +50,13 @@ class HomePage extends PureComponent {
 					<Tab eventKey="filmAccessories" title="Accessories">
 						<FilmGroup filmArray={filmList} categoryName="Accessories" />
 					</Tab>
-					<Tab eventKey="filmChemistry" title="Chemistry">
+					<Tab eventKey="filmChemistry" title="Chemical">
 						<FilmGroup filmArray={filmList} categoryName="Chemistry" />
 					</Tab>
 					</Tabs>
 				</Suspense>
 			</div>
-			<Footer />
+			
 			</div>
 		);
 	};

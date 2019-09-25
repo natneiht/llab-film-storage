@@ -6,6 +6,7 @@ import doneIcon from '../../icons/done.svg';
 import cancelIcon from '../../icons/cancel.svg';
 import deleteIcon from '../../icons/delete.svg';
 import { db } from '../../firebase';
+import { formatCurrency } from '../../functions';
 
 class FilmItem extends PureComponent {
 	constructor(props) {
@@ -48,7 +49,7 @@ class FilmItem extends PureComponent {
 	
 	deleteFilmItem = filmItem => {
 		const { deleteFilm } = this.props;
-		deleteFilm(FilmItem);
+		deleteFilm(filmItem);
 		this.setState({filmData: null});
 	}
 
@@ -72,7 +73,7 @@ class FilmItem extends PureComponent {
 					<span>{filmDetail.filmDate}</span>
 				</td>
 				<td>
-					<span>{filmDetail.filmPrice}</span>
+					<span>{formatCurrency(filmDetail.filmPrice)}</span>
 				</td>
 				<td>
 					<span className={statusClass}>

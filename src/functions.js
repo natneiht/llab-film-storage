@@ -23,3 +23,7 @@ export function getUserRole(userEmail) {
 	console.log('log2', userRole)
 	return userRole;
 }
+
+export function formatCurrency(num) {
+	return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  }

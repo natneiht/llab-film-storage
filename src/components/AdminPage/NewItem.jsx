@@ -4,104 +4,138 @@ import './FilmItem.css';
 import editIcon from '../../icons/edit.svg';
 import doneIcon from '../../icons/done.svg';
 import cancelIcon from '../../icons/cancel.svg';
-import {db} from '../../firebase';
+import { db } from '../../firebase';
+import './NewItem.css';
 
 class NewItem extends PureComponent {
-
-    addNewFilm = () => {
-		const { newUrl, newFilmDate, newFilmPrice, newFilmName, filmStatus } = this.refs;
-        // Validate data
-        // if(!(newUrl.value && newName.value && newDate.value && newPrice.value)){
-		// 	alert('Nhập đầy đủ thông tin!')
-		// 	return;
-		// }
-
-		if( !(newUrl.value && newFilmDate.value && newFilmPrice.value && newFilmName.value )){
-			alert('Nhập đầy đủ thông tin!')
+	constructor(props) {
+		super(props);
+		this.state = {
+			filmImageUrl: '',
+			filmName: '',
+			filmDate: '',
+			filmPrice: '',
+			filmCategory: '',
+			filmType: '',
+			filmNewArrival: false,
+			filmShowInList: true,
+			filmStatus: 'in'
+		};
+	}
+	addNewFilm = () => {
+		const {
+			filmImageUrl,
+			filmName,
+			filmDate,
+			filmPrice,
+			filmCategory,
+			filmType,
+			filmNewArrival,
+			filmShowInList,
+			filmStatus
+		} = this.state;
+		
+		// Validate data
+		if (!(filmImageUrl && filmName && filmDate && filmPrice && filmCategory && filmType)) {
+			alert('Nhập đầy đủ thông tin!');
 			return;
 		}
 		const newItem = {
-			filmImageUrl: newUrl.value,
-            filmName: newFilmName.value,
-            filmDate: newFilmDate.value,
-            filmPrice: newFilmPrice.value,
-            filmCategory: this.props.categoryName,
-            filmType: this.props.categoryName,
-            filmNewArrival: false,
-            filmShowInList: true,
-			filmStatus: filmStatus.checked?"in":"out"
-		}
-		// console.log(id, newDetail);
+			filmImageUrl,
+			filmName,
+			filmDate,
+			filmPrice,
+			filmCategory,
+			filmType,
+			filmNewArrival,
+			filmShowInList,
+			filmStatus
+		};
 		try {
-			db.collection('FilmList').add({...newItem}).then(ref => {
-				console.log(ref);
-				this.props.cancelAddMode();
+			db.collection('FilmList').add({ ...newItem }).then(ref => {
+				alert("Add successfully!")
 			});
-			
-
-				// this.setState({filmData: {id, data: newDetail}, editMode:false});
-			}
-			catch(error) {
-				console.log(error);
-			}
-    }
+		} catch (error) {
+			alert("Adding error!")
+			console.log(error);
+		}
+	};
 
 	render() {
 		return (
-		<tr>
-				<td scope="row">
-					{/* <img src={filmDetail.filmImageUrl} /> */}
-					<div className="edit-url">
-						<input type="text" ref="newUrl" />
-					</div>
-				</td>
-				<td>
-					<span></span>
+			<div className="container" style={{ marginTop: '200px' }}>
+				<div className="form-group">
+					<label>Image URL: </label>
 					<input
-						className="edit-name"
 						type="text"
-						ref="newFilmName"
+						className="form-control"
+						onChange={e => this.setState({ filmImageUrl: e.target.value })}
 					/>
-				</td>
-				<td>
+					<small className="form-text text-muted">
+						Input image url.
+					</small>
+				</div>
+				<div className="form-group">
+					<label>Film name: </label>
 					<input
-						className="edit-date"
+						className="form-control"
 						type="text"
-						ref="newFilmDate"
+						onChange={e => this.setState({ filmName: e.target.value })}
 					/>
-				</td>
-				<td>
+				</div>
+				<div className="form-group">
+					<label>Film category: </label>
 					<input
-						className="edit-price"
+						className="form-control"
 						type="text"
-						ref="newFilmPrice"
+						onChange={e => this.setState({ filmCategory: e.target.value })}
 					/>
-				</td>
-				<td>
+				</div>
+				<small className="form-text text-muted">
+						Eg. "120", "135", "Accessories", "Chemistry",...
+					</small>
+				<div className="form-group">
+					<label>Film type: </label>
+					<input
+						className="form-control"
+						type="text"
+						onChange={e => this.setState({ filmType: e.target.value })}
+					/>
+									<small className="form-text text-muted">
+						Eg. "BW", "Color",...
+					</small>
+				</div>
+				<div className="form-group">
+					<label>Film date: </label>
+					<input
+						className="form-control"
+						type="text"
+						onChange={e => this.setState({ filmDate: e.target.value })}
+					/>				<small className="form-text text-muted">
+					Eg. "2020", "2021",...
+				</small>
+				</div>
+				<div className="form-group">
+					<label>Film price: </label>
+					<input
+						className="form-control"
+						type="text"
+						onChange={e => this.setState({ filmPrice: e.target.value })}
+					/>
+									<small className="form-text text-muted">
+						Eg. "120000", "180000",...
+					</small>
+				</div>
 
-					<input type="checkbox" defaultChecked={true} ref="filmStatus" />
+				{/* <div className="form-group">
+					<input className="form-control" type="checkbox" defaultChecked={true} ref="filmStatus" />
 					<div>In stock</div>
-
-				</td>
-				<td>
-					<button
-						type="button"
-						title="Done editting"
-						className="btn btn-light edit-button"
-						onClick={this.addNewFilm}
-					>
-						<img src={doneIcon} />
-					</button>
-					<button
-						type="button"
-						title="Cancel editting"
-						className="btn btn-light edit-button"
-						onClick={() => this.props.cancelAddMode}
-					>
-						<img src={cancelIcon} />
-					</button>
-				</td>
-			</tr>
+				</div> */}
+				<div className="form-group">
+				<button type="button" class="status-button btn btn-outline-success submitnewfilm-button" onClick={() => this.addNewFilm()}>Submit</button>
+				<button type="button" class="status-button btn btn-outline-success goback-button" onClick={() => this.props.history.push('./admin')}>Go back</button>
+				</div>
+			</div>
 		);
 	}
 }
