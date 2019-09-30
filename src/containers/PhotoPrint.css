@@ -6,6 +6,7 @@ td {
     text-align: center;
 }
 
+
 span {
     padding: 5px;
 }
@@ -18,6 +19,14 @@ span {
     text-align: right;
 }
 
-.shipping-infomation{
+.shipping-info {
     text-align: left;
+}
+
+.shipping-checkbox {
+    margin-left: 0px !important;
+}
+
+.print-table {
+    margin-top: 25px;
 }

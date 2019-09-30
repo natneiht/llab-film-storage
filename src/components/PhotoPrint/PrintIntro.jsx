@@ -5,7 +5,7 @@ class PrintIntro extends PureComponent {
 	render() {
 		return (
 			<div>
-				<div>
+				<div style={{marginBottom: "50px"}}>
 						<h2>DỊCH VỤ IN ẢNH MỌI KÍCH CỠ</h2>
 				</div>
 				<div>

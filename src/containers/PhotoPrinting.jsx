@@ -14,7 +14,8 @@ export default class PhotoPrinting extends PureComponent {
 			printList: [],
 			isShip: false,
 			shippingInfo: '',
-			orderNote: ''
+			orderNote: '',
+			phoneNumber: ''
 		};
 	}
 
@@ -54,16 +55,19 @@ export default class PhotoPrinting extends PureComponent {
 	};
 
 	submitPrintingItem = printItem => {
-		console.log(printItem);
+		// console.log(printItem);
 		try {
-			db.collection('PrintingRequest').add({ ...printItem }).then(ref => {
+			const submitInfomation = { ...this.state, submitDate: Date.now() };
+			console.log(submitInfomation);
+			db.collection('PrintingRequest').add(submitInfomation).then(ref => {
 				alert('Đơn hàng đã được ghi nhận!');
 				// Clear old info
 				this.setState({
 					printList: [],
 					isShip: false,
 					shippingInfo: '',
-					orderNote: ''
+					orderNote: '',
+					phoneNumber: ''
 				});
 			});
 		} catch (error) {
@@ -74,29 +78,66 @@ export default class PhotoPrinting extends PureComponent {
 	render() {
 		const printingArray = Object.keys(printPrice);
 		const { printList, isShip, shippingInfo, orderNote } = this.state;
-		return (
-			<div className="container content-wrapper">
-				<PrintIntro />
-				<table className="table">
-					<thead>
-						<tr>
-							<th scope="col">Kiểu in</th>
-							<th scope="col">Kích cỡ</th>
-							<th scope="col">Số lượng</th>
-							<th scope="col">Đơn giá</th>
-							<th scope="col">Tổng</th>
-							<th scope="col">#</th>
-						</tr>
-					</thead>
-					<tbody>
-						{/* Requests list */}
-						{printList.map(item => (
-							<PrintItem key={`${item.printType}_${item.printSize}`} itemDetail={item} removePrintitemDetail={this.removePrintitemDetail}/>
-						))}
-						{/* Add new request */}
-						<NewPrintingRequest printPrice={printPrice} addNewPrintItem={this.addNewPrintItem} />
+		if (printList.length == 0)
+			return (
+				<div className="container content-wrapper">
+					<PrintIntro />
+					<table className="table print-table">
+						<thead>
+							<tr>
+								<th scope="col">Kiểu in</th>
+								<th scope="col">Kích cỡ</th>
+								<th scope="col">Số lượng</th>
+								<th scope="col">Đơn giá</th>
+								<th scope="col">Tổng</th>
+								<th scope="col">#</th>
+							</tr>
+						</thead>
+						<tbody>
+							<NewPrintingRequest printPrice={printPrice} addNewPrintItem={this.addNewPrintItem} />
+						</tbody>
+					</table>
+				</div>
+			);
+		if (printList.length > 0)
+			return (
+				<div className="container content-wrapper">
+					<PrintIntro />
+					<table className="table print-table">
+						<thead>
+							<tr>
+								<th scope="col">Kiểu in</th>
+								<th scope="col">Kích cỡ</th>
+								<th scope="col">Số lượng</th>
+								<th scope="col">Đơn giá</th>
+								<th scope="col">Tổng</th>
+								<th scope="col">#</th>
+							</tr>
+						</thead>
+						<tbody>
+							{/* Requests list */}
+							{printList.map(item => (
+								<PrintItem
+									key={`${item.printType}_${item.printSize}`}
+									itemDetail={item}
+									removePrintitemDetail={this.removePrintitemDetail}
+								/>
+							))}
+							{/* Add new request */}
+							<NewPrintingRequest printPrice={printPrice} addNewPrintItem={this.addNewPrintItem} />
 
-						{printList.length > 0 && (
+							<tr>
+								<td>
+									<strong>Total: </strong>
+								</td>
+								<td>
+									{printList.reduce(
+										(prev, curr) => prev + curr.printQuantity * curr.printItemPrice,
+										0
+									)}
+								</td>
+							</tr>
+
 							<tr>
 								<td colSpan="3">
 									<div className="form-group shipping-info">
@@ -110,11 +151,20 @@ export default class PhotoPrinting extends PureComponent {
 										<label className="form-check-label" htmlFor="isShip">
 											Ship/Chuyển phát nhanh
 										</label>
-										<textarea
+										<input
+											type="text"
 											className="form-control"
 											id="ship-infomation"
-											rows="2"
 											onChange={e => this.setState({ shippingInfo: e.target.value })}
+										/>
+										<label className="form-check-label" htmlFor="phoneNumber">
+											Số điện thoại:
+										</label>
+										<input
+											type="text"
+											className="form-control"
+											name="phoneNumber"
+											onChange={e => this.setState({ phoneNumber: e.target.value })}
 										/>
 									</div>
 								</td>
@@ -132,26 +182,19 @@ export default class PhotoPrinting extends PureComponent {
 									</div>
 								</td>
 							</tr>
-						)}
 
-						{printList.length > 0 && (
 							<tr>
 								<td colSpan="6">
 									<div className="form-group submit-button">
-										<button
-											className="btn btn-success"
-											onClick={() =>
-												this.submitPrintingItem({ printList, isShip, shippingInfo, orderNote })}
-										>
+										<button className="btn btn-success" onClick={() => this.submitPrintingItem()}>
 											Đồng ý
 										</button>
 									</div>
 								</td>
 							</tr>
-						)}
-					</tbody>
-				</table>
-			</div>
-		);
+						</tbody>
+					</table>
+				</div>
+			);
 	}
 }
