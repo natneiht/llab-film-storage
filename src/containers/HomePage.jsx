@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './HomePage.css';
 import Footer from '../components/Footer/Footer';
 import { db } from '../firebase';
+import { isLogin } from '../utils';
 const Tab =  React.lazy(() => import('react-bootstrap/Tab'));
 const Tabs = React.lazy(() => import('react-bootstrap/Tabs'));
 const LabNoti  = React.lazy(() => import( '../components/HomePage/LabNoti'));
@@ -30,7 +31,7 @@ class HomePage extends PureComponent {
     }
 
 	render() {
-		
+		console.log(isLogin())
 		const { filmList, loading } = this.state;
 		if(loading) return (<div className="main"><h5>Loading...</h5></div>);
 

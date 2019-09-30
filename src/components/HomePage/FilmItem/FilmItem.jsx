@@ -10,7 +10,7 @@ class FilmItem extends PureComponent {
 		const filmDetail = filmData.data;
 		const filmStatus = filmDetail.filmStatus === 'in' ? true : false;
 		const statusClass = filmStatus ? '' : 'table-secondary';
-		console.log(this.props);
+		// console.log(this.props);
 		return (
 			<tr className={statusClass}>
 				<td scope="row">

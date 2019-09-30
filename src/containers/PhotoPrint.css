@@ -1,0 +1,15 @@
+td {
+    text-align: center;
+}
+
+span {
+    padding: 5px;
+}
+
+.print-style {
+    text-align: left;
+}
+
+.submit-button {
+    text-align: right;
+}
