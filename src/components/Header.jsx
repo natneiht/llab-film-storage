@@ -8,7 +8,7 @@ class Header extends PureComponent {
 	
 	render() {
 		const user = firebase.auth().currentUser;
-		console.log(user);
+		// console.log(user);
 		return (
 			<header className="header trans_300">
 				<div className="main_nav_container">

@@ -55,7 +55,7 @@ class NewPrintingRequest extends PureComponent {
 						</DropDown.Toggle>
 						<DropDown.Menu>
 							{printingArray.map(item => (
-								<DropDown.Item onClick={() => this.setState({ printType: item, printSize: null })}>
+								<DropDown.Item key={item} onClick={() => this.setState({ printType: item, printSize: null })}>
 									{item}
 								</DropDown.Item>
 							))}
@@ -72,6 +72,7 @@ class NewPrintingRequest extends PureComponent {
 							<DropDown.Menu>
 								{printSizeArray.map(item => (
 									<DropDown.Item
+										key={item}
 										onClick={() =>
 											this.setState({ printSize: item, printItemPrice: printSizeList[item] })}
 									>

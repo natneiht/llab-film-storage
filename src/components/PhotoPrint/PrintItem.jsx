@@ -1,20 +1,31 @@
 import React, { PureComponent } from 'react';
+import { formatCurrency } from '../../functions';
+import PropTypes from 'prop-types';
 
-export default class PrintItem extends PureComponent {
+class PrintItem extends PureComponent {
 	render() {
-        const { printStyle, printSize } = this.props;
+
+        const { itemDetail, removePrintitemDetail } = this.props;
 		return (
 			<tr>
-				<td className="print-style">
-					<input type="checkbox" name="imageStyle" value={printStyle.printName} />
-					<span>{printStyle.printName}</span>
-				</td>
-				{printSize.map(size => (
-					<td>
-						{printStyle.printSize.includes(size) ? <input type="radio" name="image_size" /> : null}
-					</td>
-				))}
-			</tr>
+			<td>{itemDetail.printType}</td>
+			<td>{itemDetail.printSize}</td>
+			<td>{itemDetail.printQuantity}</td>
+			<td>{formatCurrency(itemDetail.printItemPrice)}</td>
+
+			<td>{formatCurrency(itemDetail.printItemPrice * itemDetail.printQuantity)}</td>
+			<td>
+				<button className="btn btn-danger" onClick={() => removePrintitemDetail(itemDetail)}>
+					x
+				</button>
+			</td>
+		</tr>
 		);
 	}
 }
+
+PrintItem.propTypes = {
+
+};
+
+export default PrintItem;

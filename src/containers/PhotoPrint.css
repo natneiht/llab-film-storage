@@ -1,3 +1,7 @@
+.content-wrapper {
+    margin-top: 120px;
+}
+
 td {
     text-align: center;
 }
@@ -12,4 +16,8 @@ span {
 
 .submit-button {
     text-align: right;
+}
+
+.shipping-infomation{
+    text-align: left;
 }
