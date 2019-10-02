@@ -114,7 +114,7 @@ class NewPrintingRequest extends PureComponent {
 						<td>{formatCurrency(printItemPrice * printQuantity)}</td>
 						<td>
 							<button className="btn btn-success" onClick={() => this.addToPrintingList()}>
-								Add
+								Thêm
 							</button>
 						</td>
 					</>

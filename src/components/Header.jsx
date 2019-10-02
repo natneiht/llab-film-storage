@@ -8,7 +8,7 @@ class Header extends PureComponent {
 	
 	render() {
 		const user = firebase.auth().currentUser;
-		// console.log(user);
+		console.log(user);
 		return (
 			<header className="header trans_300">
 				<div className="main_nav_container">
@@ -35,16 +35,25 @@ class Header extends PureComponent {
 												Photo printing
 											</NavLink>
 										</li>
-										<li>
+										{/* <li>
 											<NavLink to="/login">
 												Login
 											</NavLink>
-										</li>
-										{!!user && (<li>
-											<NavLink to="/admin">
-												Admin
+										</li> */}
+										{/* {user !== null && (
+										<>
+										<li>
+											<NavLink to="/admin/film-manager">
+												Quản lý film
 											</NavLink>
-										</li>)}
+										</li>
+										<li>
+											<NavLink to="/admin/print-manager">
+												Quản lý in ảnh
+											</NavLink>
+										</li>
+										</>
+										)} */}
 									</ul>
 								</nav>
 							</div>

@@ -1,0 +1,20 @@
+.print-manager-wrapper {
+    margin-top:150px;
+    width: 100%;
+}
+
+.print-manager-wrapper h3 {
+    margin: 20px 20px 50px;
+}
+
+.request-detail {
+    text-align: left !important;
+    /* width: 180px; */
+}
+
+.print-table {
+    width: 100%;
+}
+.request-detail div{
+    margin: 5px 5px 5px 5px;
+}

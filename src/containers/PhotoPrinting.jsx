@@ -15,7 +15,8 @@ export default class PhotoPrinting extends PureComponent {
 			isShip: false,
 			shippingInfo: '',
 			orderNote: '',
-			phoneNumber: ''
+			phoneNumber: '',
+			isPurchased: false,
 		};
 	}
 
@@ -54,12 +55,23 @@ export default class PhotoPrinting extends PureComponent {
 		// console.log(newPrintList);
 	};
 
-	submitPrintingItem = printItem => {
+	generateNewID = () => {
+		const today = new Date();
+		const dd = String(today.getDate()).padStart(2, '0');
+		const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+		const yyyy = today.getFullYear();
+		const randonNumber= Math.floor(Math.random()*999);
+		return `p${yyyy}${mm}${dd}${randonNumber}`;
+		
+	}
+
+	submitPrintingItem = () => {
 		// console.log(printItem);
 		try {
 			const submitInfomation = { ...this.state, submitDate: Date.now() };
-			console.log(submitInfomation);
-			db.collection('PrintingRequest').add(submitInfomation).then(ref => {
+			// console.log(submitInfomation);
+			const requestId = this.generateNewID();
+			db.collection('PrintingRequest').doc(requestId).set(submitInfomation).then(ref => {
 				alert('Đơn hàng đã được ghi nhận!');
 				// Clear old info
 				this.setState({
