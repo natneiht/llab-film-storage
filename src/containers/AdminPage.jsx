@@ -6,6 +6,12 @@ import './css/AdminPage.css'
 
 class AdminPage
  extends PureComponent {
+
+    componentDidMount() {
+      const loginStatus = JSON.parse(localStorage.getItem('loginStatus'));
+      if(loginStatus.status && loginStatus.userRole) this.props.history.push('./admin');
+    }
+    
     render() {
         return (
             <div className="container admin-wrapper">

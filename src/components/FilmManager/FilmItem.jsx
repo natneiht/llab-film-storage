@@ -26,7 +26,6 @@ class FilmItem extends PureComponent {
 		const {id, data} = this.state.filmData;
 		const { newUrl, newFilmDate, newFilmPrice, newFilmName, filmStatus } = this.refs;
 		if( !(newUrl.value && newFilmDate.value && newFilmPrice.value )) return;
-		console.log(this.props.filmData);
 		const newDetail = {
 			...data,
 			filmName: newFilmName.value,

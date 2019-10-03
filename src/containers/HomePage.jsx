@@ -38,7 +38,7 @@ class HomePage extends PureComponent {
 		return (
 			<div className="container">
 			<div className="main">
-				
+				{/* <b><a href="http://www.google.com" style={{marginL: "500px", fontSize: "50px"}}>Đi tới Google </a></b> */}
 				<Suspense fallback={(<div>Loading...</div>)}>
 					<LabNoti />
 					<Tabs defaultActiveKey="film135" id="uncontrolled-tab-example">

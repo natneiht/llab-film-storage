@@ -33,6 +33,7 @@ class NewPrintingRequest extends PureComponent {
 			printQuantity: 1
 		});
 	};
+
 	render() {
 		const { printPrice, addNewPrintItem } = this.props;
 		const { printType, printSize, printQuantity, printItemPrice } = this.state;

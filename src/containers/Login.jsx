@@ -50,9 +50,11 @@ class Login extends PureComponent {
 		}
 		firebase.auth().onAuthStateChanged(user => {
 			if (user) {
-				localStorage.setItem('myPage.expectSignIn', '1');
+				const loginString = JSON.stringify({status: true, userRole: this.state.userRole});
+				localStorage.setItem('loginStatus',loginString);
 			} else {
-				localStorage.removeItem('myPage.expectSignIn');
+				const loginString = JSON.stringify({status: false, userRole: -1});
+				localStorage.setItem('loginStatus',loginString);
 				// Implement logic to trigger the login dialog here or redirect to sign-in page.
 				// e.g. showDialog()
 			}
@@ -62,7 +64,7 @@ class Login extends PureComponent {
 	render() {
 		// console.log(this.state);
 		var user = firebase.auth().currentUser;
-		if (localStorage.getItem('myPage.expectSignIn') !== 1) {
+		if (localStorage.getItem('loginStatus') !== null) {
 			if (user == null)
 				return (
 					<div className="container">
