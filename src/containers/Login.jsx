@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { db } from '../firebase';
 import { filmList } from '../appConstant';
+import { isLogin } from '../utils';
 import firebase from 'firebase';
 import './css/Login.css';
 
@@ -50,11 +51,11 @@ class Login extends PureComponent {
 		}
 		firebase.auth().onAuthStateChanged(user => {
 			if (user) {
-				const loginString = JSON.stringify({status: true, userRole: this.state.userRole});
-				localStorage.setItem('loginStatus',loginString);
+				const loginStatus = 1;
+				localStorage.setItem('loginStatus',loginStatus);
 			} else {
-				const loginString = JSON.stringify({status: false, userRole: -1});
-				localStorage.setItem('loginStatus',loginString);
+				// const loginString = JSON.stringify({status: false, userRole: -1});
+				localStorage.removeItem('loginStatus');
 				// Implement logic to trigger the login dialog here or redirect to sign-in page.
 				// e.g. showDialog()
 			}
@@ -64,7 +65,8 @@ class Login extends PureComponent {
 	render() {
 		// console.log(this.state);
 		var user = firebase.auth().currentUser;
-		if (localStorage.getItem('loginStatus') !== null) {
+		const loginStatus = localStorage.getItem('loginStatus');
+		if (!isLogin()) {
 			if (user == null)
 				return (
 					<div className="container">

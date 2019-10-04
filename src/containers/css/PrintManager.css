@@ -1,6 +1,8 @@
 .print-manager-wrapper {
     margin-top:150px;
+    /* margin-left: 20px; */
     width: 100%;
+    /* max-width: 1400px; */
 }
 
 .print-manager-wrapper h3 {
@@ -17,4 +19,14 @@
 }
 .request-detail div{
     margin: 5px 5px 5px 5px;
+}
+
+.request-list {
+    width: 100%;
+    margin: 20px 20px 20px 20px;
+}
+
+.MuiTableCell-paddingCheckbox {
+    width: 100px !important;
+    padding: 0 0 0 4px;
 }
