@@ -5,6 +5,7 @@ import NewPrintingRequest from '../components/PhotoPrint/NewPrintingRequest';
 import PrintIntro from '../components/PhotoPrint/PrintIntro';
 // import { ReCaptcha } from 'react-recaptcha-google'
 import { db } from '../firebase';
+import { formatCurrency } from '../functions';
 import PrintItem from '../components/PhotoPrint/PrintItem';
 
 export default class PhotoPrinting extends PureComponent {
@@ -139,14 +140,15 @@ export default class PhotoPrinting extends PureComponent {
 							<NewPrintingRequest printPrice={printPrice} addNewPrintItem={this.addNewPrintItem} />
 
 							<tr>
+								<td colSpan="3" />
 								<td>
 									<strong>Total: </strong>
 								</td>
 								<td>
-									{printList.reduce(
+									{formatCurrency(printList.reduce(
 										(prev, curr) => prev + curr.printQuantity * curr.printItemPrice,
 										0
-									)}
+									))}
 								</td>
 							</tr>
 

@@ -1,10 +1,11 @@
 import firebase from 'firebase';
 export function isLogin() {
-	// let user = firebase.auth().currentUser;
+	let user = firebase.auth().currentUser;
+	// console.log(user);
 	// if(user) return 1;
 	// if(!user) return 0;
 	const loginStatus = localStorage.getItem('loginStatus');
-	console.log(loginStatus);
+	// console.log(loginStatus);
 	if (loginStatus == null || loginStatus == 0) return false;
 	if (loginStatus == 1) return true;
 }

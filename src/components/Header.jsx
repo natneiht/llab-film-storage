@@ -2,13 +2,14 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import './Header.css';
 import { NavLink } from 'react-router-dom';
+import { isLogin } from '../utils';
 import firebase from 'firebase';
 
 class Header extends PureComponent {
 	
 	render() {
 		const user = firebase.auth().currentUser;
-		console.log(user);
+		// console.log(user);
 		return (
 			<header className="header trans_300">
 				<div className="main_nav_container">
@@ -40,7 +41,7 @@ class Header extends PureComponent {
 												Login
 											</NavLink>
 										</li> */}
-										{/* {user !== null && (
+										{isLogin && (
 										<>
 										<li>
 											<NavLink to="/admin/film-manager">
@@ -53,7 +54,7 @@ class Header extends PureComponent {
 											</NavLink>
 										</li>
 										</>
-										)} */}
+										)}
 									</ul>
 								</nav>
 							</div>

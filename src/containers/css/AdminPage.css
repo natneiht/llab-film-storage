@@ -1,8 +1,46 @@
 .admin-wrapper {
-    margin-top: 200px
+    margin-top: 200px;
+    width: 100%;
 }
 
 .admin-wrapper div {
-    font-size: 30px;
-    margin: 50px 20px 50px 20px;
+    /* font-size: 30px; */
+    /* margin: 50px 20px 50px 20px; */
 }
+
+#exTab1 .tab-content {
+    color : white;
+    background-color: #428bca;
+    padding : 5px 15px;
+  }
+  
+  #exTab2 h3 {
+    color : white;
+    background-color: #428bca;
+    padding : 5px 15px;
+  }
+  
+  /* remove border radius for the tab */
+  
+  #exTab1 .nav-pills > li > a {
+    border-radius: 0;
+  }
+  
+  /* change border radius for the tab , apply corners on top*/
+  
+  #exTab3 .nav-pills > li > a {
+    border-radius: 4px 4px 0 0 ;
+  }
+  
+  #exTab3 .tab-content {
+    color : white;
+    background-color: #428bca;
+    padding : 5px 15px;
+  }
+  
+  
+  @media only screen and (max-width: 600px) {
+    .main {
+      padding-left: 0;
+    }
+  }

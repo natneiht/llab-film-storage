@@ -6,7 +6,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import firebase from 'firebase';
 import { getUserRole } from '../functions';
 import { db } from '../firebase';
-
+import './css/FilmManager.css';
 
 class FilmManager extends PureComponent {
 	constructor(props) {
@@ -20,7 +20,7 @@ class FilmManager extends PureComponent {
 	async componentDidMount() {
 		db.collection('FilmList').get().then(querySnapshot => {
 			const data = querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() }));
-			console.log(data);
+			// console.log(data);
 			this.setState({ filmList: data, loading: false });
 		});
 	}
@@ -51,10 +51,9 @@ class FilmManager extends PureComponent {
 
 	render() {
 		var user = firebase.auth().currentUser;
-		if (user) {
-			// console.log(user.email)
-			console.log('Role', getUserRole(user.email));
-		}
+		// if (user) {
+		// 	console.log('Role', getUserRole(user.email));
+		// }
 		const { filmList, loading } = this.state;
 		if (loading)
 			return (
@@ -63,35 +62,30 @@ class FilmManager extends PureComponent {
 				</div>
 			);
 		const filmGroup = {
-			"135": 'Film 135',
-			"120": 'Film 120',
-			"Accessories": 'Accessories',
-			"Chemistry": 'Chemiscal'
+			'135': 'Film 135',
+			'120': 'Film 120',
+			Accessories: 'Accessories',
+			Chemistry: 'Chemiscal'
 		};
 		const filmGroupArray = Object.keys(filmGroup);
 		return (
-			<div className="container">
-				<div className="main">
-					<Tabs defaultActiveKey="135" id="uncontrolled-tab-example">
-						{filmGroupArray.map(filmGroupItem => (
-							<Tab eventKey={filmGroupItem} title={filmGroup[filmGroupItem]}>
-								<FilmGroup
-									filmArray={filmList}
-									categoryName={filmGroupItem}
-									deleteFilm={this.deleteFilm}
-									addNewItem={this.addNewItem}
-								/>
-							</Tab>
-						))}
-					</Tabs>
-
-					);
-
-					{/* Add new item */}
-
-					{/* </tbody>
-				</table> */}
-				</div>
+			<div className="container-lg film-manager-wrapper">
+				<h3>
+					<strong>Quản lý film </strong>
+				</h3>
+				<br />
+				<Tabs defaultActiveKey="135" id="uncontrolled-tab-example">
+					{filmGroupArray.map(filmGroupItem => (
+						<Tab key={filmGroupItem} eventKey={filmGroupItem} title={filmGroup[filmGroupItem]}>
+							<FilmGroup
+								filmArray={filmList}
+								categoryName={filmGroupItem}
+								deleteFilm={this.deleteFilm}
+								addNewItem={this.addNewItem}
+							/>
+						</Tab>
+					))}
+				</Tabs>
 			</div>
 		);
 	}

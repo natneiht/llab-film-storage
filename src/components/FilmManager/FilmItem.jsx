@@ -34,7 +34,6 @@ class FilmItem extends PureComponent {
 			filmDate: newFilmDate.value,
 			filmStatus: filmStatus.checked?"in":"out"
 		}
-		console.log(id, newDetail);
 		try {
 			db.collection('FilmList').doc(id).set({...newDetail}).then(res => console.log(res));
 			
@@ -57,13 +56,12 @@ class FilmItem extends PureComponent {
 		const { filmData, editMode } = this.state;
 		const filmDetail = filmData.data;
 		const filmStatus = filmDetail.filmStatus === 'in' ? true : false;
-		const statusClass = filmStatus ? 'in-stock' : 'out-stock';
-		// console.log(filmStatus);
-		// console.log(this.props.filmDetail.status);
+		const statusClass = `film-item` + filmStatus ? 'in-stock' : 'out-stock';
+		const NO_IMAGE_ALT = process.env.PUBLIC_URL + '/blank_img.jpg';
 		const showView = (
 			<tr className={statusClass}>
 				<td scope="row">
-					<img src={filmDetail.filmImageUrl} />
+					<img className="film-image" src={filmDetail.filmImageUrl!==false? filmDetail.filmImageUrl : NO_IMAGE_ALT} />
 				</td>
 				<td>
 					<span>{filmDetail.filmName}</span>

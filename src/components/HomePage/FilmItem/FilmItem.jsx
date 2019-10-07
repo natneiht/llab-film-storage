@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { formatCurrency } from '../../../functions';
 import './FilmItem.css';
 
 
@@ -26,7 +27,7 @@ class FilmItem extends PureComponent {
 					<span>{filmDetail.filmDate}</span>
 				</td>
 				<td>
-					<span>{filmDetail.filmPrice}</span>
+					<span>{formatCurrency(filmDetail.filmPrice)}</span>
 				</td>
 				<td>
 					<span

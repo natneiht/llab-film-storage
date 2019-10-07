@@ -16,14 +16,15 @@ export function getUserRole(userEmail) {
 	.then(querySnapshot => {
 		querySnapshot.docs.forEach(item => {
 			userRole=item.data().roleLevel;
-			console.log('log1', userRole)
+			// console.log('log1', userRole)
 			// this.setState({userRole});
 		});
 	});
-	console.log('log2', userRole)
+	// console.log('log2', userRole)
 	return userRole;
 }
 
 export function formatCurrency(num) {
-	return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+	if(num==null) num = 0;
+	return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + " VNĐ";
   }

@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import DropDown from 'react-bootstrap/Dropdown';
-// import InputGroup from 'react-bootstrap/InputGroup';
-// import FormControl from 'react-bootstrap/FormControl';
 import { formatCurrency } from '../../functions';
 import './NewPrintingRequest.css';
 import { isNumber } from 'util';
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 class NewPrintingRequest extends PureComponent {
 	constructor(props) {
@@ -45,71 +46,57 @@ class NewPrintingRequest extends PureComponent {
 			printSizeArray = Object.keys(printPrice[printType]);
 			printSizeList = printPrice[printType];
 		}
-		// console.log(printSizeList);
 		return (
 			<tr>
-				{/* <PrintingType printingType={this.props.printingArray}/> */}
 				<td>
-					<DropDown>
-						<DropDown.Toggle variant="secondary" id="dropdown-basic">
-							{printType ? printType : 'Chọn kiểu in'}
-						</DropDown.Toggle>
-						<DropDown.Menu>
+					<Select
+					value={printType!==null ? printType : printingArray[0]}
+					onChange={(e) => this.setState({ printType: e.target.value, printSize: null })}
+					inputProps={{
+						name: 'type',
+						id: 'item-type',
+					}}
+					>
 							{printingArray.map(item => (
-								<DropDown.Item key={item} onClick={() => this.setState({ printType: item, printSize: null })}>
-									{item}
-								</DropDown.Item>
+								<MenuItem key={item} value={item}>{item}</MenuItem>
 							))}
-						</DropDown.Menu>
-					</DropDown>
+					</Select>
+					<FormHelperText style={{textAlign: "center"}}>Chọn kiểu in</FormHelperText>
 				</td>
 
 				{printType !== null && (
 					<td>
-						<DropDown>
-							<DropDown.Toggle variant="secondary" id="dropdown-basic">
-								{printSize ? printSize : 'Chọn kích cỡ'}
-							</DropDown.Toggle>
-							<DropDown.Menu>
+					<Select
+						value={printSize!==null ? printSize : printSizeArray[0]}
+						onChange={(e) => this.setState({ printSize: e.target.value, printItemPrice: printSizeList[e.target.value] })}
+						inputProps={{
+							name: 'size',
+							id: 'item-size',
+						}}
+						>
 								{printSizeArray.map(item => (
-									<DropDown.Item
-										key={item}
-										onClick={() =>
-											this.setState({ printSize: item, printItemPrice: printSizeList[item] })}
-									>
-										{item}
-									</DropDown.Item>
+									<MenuItem key={item} value={item}>{item}</MenuItem>
 								))}
-							</DropDown.Menu>
-						</DropDown>
+					</Select>
 					</td>
 				)}
 				{printSize !== null && (
 					<>
 						<td>
-							<button
-								type="button"
-								className="btn btn-default btn-sm decrease-button"
-								onClick={() =>
-									this.setState({
-										printQuantity: printQuantity <= 1 ? printQuantity : printQuantity - 1
-									})}
-							>
-								-
-							</button>
-							<input
-								type="text"
-								className="product-quantity-input"
-								value={printQuantity}
-								onChange={e => this.setState({ printQuantity: e.target.value })}
+							<TextField
+								id="standard-number"
+								// label="Number"
+								value={this.state.printQuantity}
+								onChange={e => {
+									if(e.target.value > 0) this.setState({ printQuantity: Number(e.target.value) })
+								}}
+								type="number"
+								// className={classes.textField}
+								InputLabelProps={{
+								shrink: true,
+								}}
+								// margin="normal"
 							/>
-							<button
-								type="button"
-								className="btn btn-default btn-sm increase-button"
-								onClick={() => this.setState({ printQuantity: printQuantity + 1 })}
-							>
-								+
-							</button>
 						</td>
 						<td>{formatCurrency(printItemPrice)}</td>
 						<td>{formatCurrency(printItemPrice * printQuantity)}</td>
@@ -120,11 +107,6 @@ class NewPrintingRequest extends PureComponent {
 						</td>
 					</>
 				)}
-				{/* {printType !== null && (
-					<select name="film-size">
-						{printSizeArray.map(item => <option value="prtintingType">{item}</option>)}
-					</select>
-				)} */}
 			</tr>
 		);
 	}

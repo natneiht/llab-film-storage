@@ -29,10 +29,10 @@ class PrintManager extends PureComponent {
 				{
 					title: 'Thanh toán',
 					field: 'isPurchased',
-					lookup: { true: 'Yes', false: 'No' },
+					lookup: { true: 'Yes', false: 'No' }
 				},
 				{ title: 'Ngày', field: 'submitDate', hidden: true, defaultSort: 'desc' },
-				{ title: 'Ngày', field: 'submitDateString', hidden: false },
+				{ title: 'Ngày', field: 'submitDateString', hidden: false }
 			],
 			loading: true
 		};
@@ -41,7 +41,7 @@ class PrintManager extends PureComponent {
 	async componentDidMount() {
 		db.collection('PrintingRequest').get().then(querySnapshot => {
 			const data = querySnapshot.docs.map(doc => Object.assign(doc.data(), { id: doc.id }));
-			console.log(data);
+			// console.log(data);
 			this.setState({ requestList: data, loading: false });
 		});
 	}
@@ -112,7 +112,7 @@ class PrintManager extends PureComponent {
 
 	render() {
 		const { requestList, loading } = this.state;
-		console.log(this.state);
+		// console.log(this.state);
 		if (loading)
 			return (
 				<div className="container">
@@ -120,26 +120,31 @@ class PrintManager extends PureComponent {
 				</div>
 			);
 		const renderData = requestList.map(request => {
-			let requestDetailString = request.printList.reduce( (prev, item) => {
-				return prev + `${item.printQuantity} x ${item.printType} (${item.printSize}); `
+			let requestDetailString = request.printList.reduce((prev, item) => {
+				return prev + `${item.printQuantity} x ${item.printType} (${item.printSize}); `;
 			}, '');
 			// Custom fields here
-			let totalBill = formatCurrency(request.printList.reduce( (total, item) => {return total + item.printQuantity * item.printItemPrice},0));
+			let totalBill = formatCurrency(
+				request.printList.reduce((total, item) => {
+					return total + item.printQuantity * item.printItemPrice;
+				}, 0)
+			);
 			let sDate = new Date(request.submitDate);
 			let submitDateString = `${sDate.getDay()}/${sDate.getMonth()}/${sDate.getFullYear()}`;
-			return Object.assign(request, {requestDetailString, totalBill, submitDateString})});
+			return Object.assign(request, { requestDetailString, totalBill, submitDateString });
+		});
 		const requestArray = Object.keys(requestList);
-		console.log(renderData);
 		return (
 			<div className="container-lg print-manager-wrapper">
 				<h3>
-					<strong>Danh sách đơn hàng </strong>
+					<strong>Quản lý đơn hàng in ảnh </strong>
 				</h3>
 				<div className="col-lg-12">
 					<MaterialTable
 						title="Danh sách đơn hàng"
 						columns={this.state.columns}
 						data={renderData}
+						options={{ pageSize: 25 }}
 						editable={{
 							onRowAdd: newData =>
 								new Promise(resolve => {
@@ -159,7 +164,7 @@ class PrintManager extends PureComponent {
 										const requestList = [
 											...this.state.requestList
 										];
-										this.updateRequest(oldData.id, newData)
+										this.updateRequest(oldData.id, newData);
 										requestList[requestList.indexOf(oldData)] = newData;
 										this.setState({ requestList });
 									}, 600);
@@ -179,6 +184,7 @@ class PrintManager extends PureComponent {
 									}, 600);
 								})
 						}}
+						onRowClick={(event, data, panel) => this.props.history.push('./print-manager/' + data.id)}
 					/>
 				</div>
 				{/* <table className="table print-table">

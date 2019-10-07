@@ -6,6 +6,7 @@ import Footer from './components/Footer/Footer';
 import { BrowserRouter, Switch, Route, Link, NavLink } from 'react-router-dom';
 import HomePage from './containers/HomePage';
 import PrivateRoute from './components/Route/PrivateRoute';
+const PrintRequestDetail = React.lazy(() => import('./components/PrintManager/PrintRequestDetail'));
 const NewItem = React.lazy(() => import('./components/FilmManager/NewItem'));
 const Login = React.lazy(() => import('./containers/Login'));
 const AdminPage = React.lazy(() => import('./containers/AdminPage'));
@@ -18,6 +19,7 @@ function App() {
 		<BrowserRouter>
 			<Header />
 			<Switch>
+				
 				<Route exact path="/" component={HomePage} />
 				<Suspense fallback={<div>Loading...</div>}>
 					<Route exact path="/login" component={Login} />
@@ -26,6 +28,7 @@ function App() {
 					<PrivateRoute exact path="/admin/film-manager" component={FilmManager} />
 					<PrivateRoute exact path="/admin/addnewfilm" component={NewItem} />
 					<PrivateRoute exact path="/admin/print-manager" component={PrintManager} />
+					<PrivateRoute exact path="/admin/print-manager/:requestId" component={PrintRequestDetail} />
 				</Suspense>
 				<Route
 					render={props => (

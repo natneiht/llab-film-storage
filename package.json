@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@devexpress/dx-react-core": "^2.1.1",
+    "@devexpress/dx-react-grid": "^2.1.1",
     "@react-firebase/auth": "^0.2.9",
     "axios": "^0.19.0",
     "firebase": "^6.6.1",

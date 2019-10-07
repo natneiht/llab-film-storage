@@ -25,20 +25,18 @@ class HomePage extends PureComponent {
 			.get()
 			.then(querySnapshot => {
 				const data = querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data()}));
-				console.log(data);
 				this.setState({filmList: data, loading: false})
 			});
     }
 
 	render() {
-		console.log(isLogin())
+		// console.log(isLogin())
 		const { filmList, loading } = this.state;
 		if(loading) return (<div className="main"><h5>Loading...</h5></div>);
 
 		return (
-			<div className="container">
-			<div className="main">
-				{/* <b><a href="http://www.google.com" style={{marginL: "500px", fontSize: "50px"}}>Đi tới Google </a></b> */}
+			<div className="container-lg main-wrapper">
+				
 				<Suspense fallback={(<div>Loading...</div>)}>
 					<LabNoti />
 					<Tabs defaultActiveKey="film135" id="uncontrolled-tab-example">
@@ -56,7 +54,6 @@ class HomePage extends PureComponent {
 					</Tab>
 					</Tabs>
 				</Suspense>
-			</div>
 			
 			</div>
 		);

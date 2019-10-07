@@ -13,7 +13,10 @@ td img {
     height: auto;
 
 }
-
+.film-image {
+    height: 100px;
+    width: auto
+}
 td span {
     word-break: keep-all;
 }

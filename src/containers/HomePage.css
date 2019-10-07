@@ -1,9 +1,9 @@
-.main {
+.main-wrapper {
     /* margin-top: 20%; */
     /* padding: 0 0 5% 15%; */
     padding-top: 150px;
     padding-left: 20px;
-    width: auto;
+    width: 100%;
   }
 table {
   width: auto;
